@@ -16,24 +16,30 @@ void	reverse_rotate(t_node **stack)
 {
 	t_node	*first;
 	t_node	*last;
-	t_node	*current;
 
 	first = *stack;
-	current = *stack;
+	last = *stack;
 	if (*stack == NULL || (*stack)->next == NULL)
 		return ;
-	while (current->next != NULL)
+	while (last->next != NULL)
 	{
-		current = current->next;
+		last = last->next;
 	}
-	/*last = current;
-	current->previous = NULL;
-	current->next = first;
-    current = *stack;
-	first->previous = current;
-	last->previous->next = NULL;*/
-    last = current;
-    current->previous = NULL;
-    current->next = first;
-    current = *stack;
+	last->previous->next = NULL;
+	last->next = first;
+	first->previous = last;
+	last->previous = NULL;
+	*stack = last;
+}
+
+void	rra(t_node **stack_a)
+{
+	reverse_rotate(stack_a);
+	ft_printf("rra\n");
+}
+
+void	rrb(t_node **stack_b)
+{
+	reverse_rotate(stack_b);
+	ft_printf("rrb\n");
 }
