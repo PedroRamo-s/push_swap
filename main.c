@@ -30,12 +30,15 @@ int	main(int argc, char **argv)
 	stack_b = NULL;
 	if (argc < 2)
 		return (0);
-	if (!check_arguments(argc, argv))
-		error_exit;
-	init_stack_a(&stack_a, argc, argv);
-
-
-	stack_a = node_builder(2);
+	if (!init_stack_a(&stack_a, argc, argv))
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	ft_printf("Primeiro Numero na Stack : %d\n", stack_a -> value);
+	free_stack(&stack_a);
+	return (0);
+	/*stack_a = node_builder(2);
 	stack_a->next = node_builder(5);
 	stack_a->next->previous = stack_a;
 	stack_a->next->next = node_builder(8);
@@ -45,5 +48,5 @@ int	main(int argc, char **argv)
 	stack_printer(stack_a);
 	printf("stack_a after sa: \n");
 	sa(&stack_a);
-	stack_printer(stack_a);
+	stack_printer(stack_a);*/
 }
