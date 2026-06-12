@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:08:38 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/10 05:01:05 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/12 04:56:58 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,58 +24,44 @@ t_node	*node_builder(int value)
     node->value = value;
 	return (node);
 }
-void	append_node(t_node **stack, t_node *new_node)
+void	add_bottom(t_stack *stack, int value)
 {
-	t_node	*last;
-
-	if (!stack || !new_node)
+	t_node	*new_node;
+	new_node = malloc(sizeof(t_node));
+	if (!new_node)
 		return ;
-	// Se a stack estiver vazia, o novo nó passa a ser o primeiro
-	if (*stack == NULL)
+	new_node -> value = value;
+	new_node -> next = NULL;
+	if (stack -> size == 0)
 	{
-		*stack = new_node;
-		return ;
+		new_node -> previous = NULL;
+		stack -> top = new_node;
+		stack -> bottom = new_node;
 	}
-	// Caso contrário, navega até ao último nó atual
-	last = *stack;
-	while (last->next != NULL)
-		last = last->next;
-	// Conecta o último nó ao novo nó e vice-versa
-	last->next = new_node;
-	new_node->previous = last;
+	else
+	{
+		new_node -> previous = stack -> bottom;
+		stack -> bottom -> next = new_node;
+		stack -> bottom = new_node;
+	}
+	stack -> size++;
 }
 
-int	init_stack_a(t_node **stack_a, int argc, char **argv)
+void	init_stack_a(t_stack *stack_a, int argc, char **argv, int start_index)
 {
-	int		i;
-	int		value;
-	t_node	*new_node;
-
-	i = 1; // Começa no 1 para saltar o nome do programa
-	while (i < argc)
+	int	value;
+	stack_a -> top = NULL;
+	stack_a -> bottom = NULL;
+	stack_a -> size = 0;
+	while (start_index < argc)
 	{
-		// 1. Verifica Sintaxe e Overflow ao mesmo tempo
-		if (!is_numeric(argv[i]) || !ft_atoi_safe(argv[i], &value))
-		{
-			free_stack(stack_a); // Limpa o que já tinha sido alocado
-			return (0); // Sinaliza erro para o main
-		}
-		// 2. Verifica se o número já existe na stack_a
-		if (has_duplicate(*stack_a, value))
-		{
-			free_stack(stack_a);
-			return (0);
-		}
-		// 3. Cria o novo nó usando o node_builder
-		new_node = node_builder(value);
-		if (!new_node)
-		{
-			free_stack(stack_a);
-			return (0);
-		}
-		// 4. Adiciona o nó no fim da stack
-		append_node(stack_a, new_node);
-		i++;
+		if (!is_numeric(argv[start_index]))
+			handle_error_and_exit(stack_a);
+		if (ft_atoi_safe(argv[start_index], &value) == 0)
+			handle_error_and_exit(stack_a);
+		if (has_duplicate(stack_a, value))
+			handle_error_and_exit(stack_a);
+		add_bottom(stack_a, value);
+		start_index++;
 	}
-	return (1); // Stack criada e limpa
 }

@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/10 05:09:03 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/12 05:06:21 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	ft_atoi_safe(const char *str, int *result)
 
 	i = 0;
 	sign = 1;
-	result = 0;
+	res = 0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
 			sign = -1;
 		i++;
 	}
-	while (str[i] && (str[i] > '0' && str[i] < '9'))
+	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 	{
 		res = (res * 10) + (str[i] - '0');
 		if (sign == 1 && res > INT_MAX)
@@ -58,22 +58,51 @@ int	is_numeric(char *str)
 		return (0);
 	while (str[i] != '\0')
 	{
-		if (str[i] < '0' && str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int	has_duplicate(t_node *stack_a, int value)
+int	has_duplicate(t_stack *stack, int value)
 {
-	if (!stack_a)
+	t_node *current;
+
+	if (!stack || !stack -> top)
 		return (0);
-	while (stack_a != NULL)
+	current = stack -> top;
+	while (current)
 	{
-		if (stack_a->value == value)
+		if (current -> value == value)
 			return (1);
-		stack_a = stack_a->next;
+		current = current -> next;
 	}
 	return (0);
+}
+
+int	parse_flags(int	argc, char **argv, t_config *config)
+{
+	int	i;
+
+	i = 1;
+	config -> strategy = STRAT_ADAPTIVE;
+	config -> bench_mode = 0;
+	while (i < argc)
+	{
+		if (ft_strcmp(argv[i], "--bench") == 0)
+			config -> bench_mode = 1;
+		else if (ft_strcmp(argv[i], "--simple") == 0)
+			config -> strategy = STRAT_SIMPLE;
+		else if (ft_strcmp(argv[i], "--medium") == 0)
+			config -> strategy = STRAT_MEDIUM;
+		else if (ft_strcmp(argv[i], "--complex") == 0)
+			config -> strategy = STRAT_COMPLEX;
+		else if (ft_strcmp(argv[i], "--adaptative") == 0)
+			config -> strategy = STRAT_ADAPTIVE;
+		else
+			break ;
+		i++;
+	}
+	return (i);
 }

@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   erro_handler.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/09 15:08:31 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/12 04:28:29 by aantela-         ###   ########.fr       */
+/*   Created: 2026/06/12 03:33:19 by aantela-          #+#    #+#             */
+/*   Updated: 2026/06/12 03:40:27 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_stack(t_stack *stack)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_node *current;
-	t_node *next_node;
+	size_t	i;
 
-	if (!stack || !stack -> top)
-		return ;
-	current = stack -> top;
-	while (current != NULL)
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 	{
-		next_node = current -> next;
-		free(current);
-		current = next_node;
+		i++;
 	}
-	stack -> top = NULL;
-	stack -> bottom = NULL;
-	stack -> size = 0;
-}
-
-void	handle_error_and_exit(t_stack *stack)
-{
-	free_stack(stack);
-	write(2, "Error\n", 6);
-	exit(1);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
