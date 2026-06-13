@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/12 05:06:21 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/13 05:27:37 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,20 @@ int	parse_flags(int	argc, char **argv, t_config *config)
 		i++;
 	}
 	return (i);
+}
+
+int	is_sorted(t_stack *stack)
+{
+	t_node	*current;
+
+	if (!stack || !stack -> top || stack -> size < 2)
+		return (1);
+	current = stack -> top;
+	while (current -> next != NULL)
+	{
+		if (current -> value > current -> next -> value)
+			return (0);
+		current = current -> next;
+	}
+	return (1);
 }

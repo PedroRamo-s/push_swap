@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/12 04:47:36 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/13 07:04:54 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int		ft_atoi_safe(const char *str, int *result);
 int		is_numeric(char *str);
 int		has_duplicate(t_stack *stack, int value);
 int		parse_flags(int argc, char **argv, t_config *config);
+int		is_sorted(t_stack *stack);
 
 //PUSH_SWAP_UTILS.C
 t_node	*node_builder(int value);
@@ -63,6 +64,23 @@ void	init_stack_a(t_stack *stack_a, int argc, char **argv, int start_index);
 
 //UTILS
 int	ft_strcmp(const char *s1, const char *s2);
+char	**ft_split(char const *s);
+void	free_array(char **array);
 
-void	sa(t_node **stack_a);
+// operadores
+void	sa(t_stack *a);
+void	sb(t_stack *b);
+void	ss(t_stack *a, t_stack *b);
+
+void    ra(t_stack *a);
+void    rb(t_stack *b);
+void    rr(t_stack *a, t_stack *b);
+
+void	rra(t_stack *a);
+void	rrb(t_stack *b);
+void	rrr(t_stack *a, t_stack *b);
+
+
+void	pa(t_stack *a, t_stack *b);
+void	pb(t_stack *a, t_stack *b);
 #endif
