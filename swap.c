@@ -6,30 +6,88 @@
 /*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 16:15:36 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/03 16:15:37 by pgois-wa         ###   ########.fr       */
+/*   Updated: 2026/06/17 05:19:56 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sa(t_node **stack_a)
+static void	swap(t_stack *s)
 {
 	t_node	*first;
 	t_node	*second;
 
-	if (*stack_a == NULL || (*stack_a)->next == NULL)
+	if (!s || !s->top || !s->top->next)
 		return ;
-	first = *stack_a;
+	first = s->top;
 	second = first->next;
-	// 1. Handling 'first' links
-	first->previous = second;   // first's previous link now points to second
-	first->next = second->next; // first's next link now points towards hypothetical 'third'
-	// 2. Handling the hypothetical 'third' link
-	if (first->next != NULL)
-		first->next = second->next;
-	// 3. Handling the 'second' links
-	second->previous = NULL; // second's previous is NULL, because it is the first node now
-	second->next = first;    // second's next is first, since first is now the second link
-	// 4. Update the main stack head pointer
-	*stack_a = second;
+	first->next = second->next;
+	if (second->next)
+		second->next->previous = first;
+	else
+		s->bottom = first;
+	second->previous = NULL;
+	second->next = first;
+	first->previous = second;
+	s->top = second;
+}
+//temporariamente modificado para impressao de debug.
+void	sa(t_stack *a, t_stack *b, t_bench *bench)
+{
+	if (!a || !a->top || !a->top->next)
+		return ;
+	swap(a);
+	write(1, "sa\n", 3);
+	print_stacks("sa", a, b); //debug
+	if (bench)
+		bench -> sa++;
+}
+//temporariamente modificador para impressar de debug.
+void	sb(t_stack *b, t_stack *a, t_bench *bench)
+{
+	if (!b || !b->top || !b->top->next)
+		return ;
+	swap(b);
+	write(1, "sb\n", 3);
+	print_stacks("sb", a, b);//debug
+	if (bench)
+		bench -> sb++;
+}
+
+void	ss(t_stack *a, t_stack *b, t_bench *bench)
+{
+	int	swapped_a;
+	int	swapped_b;
+
+	swapped_a = 0;
+	swapped_b = 0;
+	if (a && a->top && a->top->next)
+	{
+		swap(a);
+		swapped_a = 1;
+	}
+	if (b && b->top && b->top->next)
+	{
+		swap(b);
+		swapped_b = 1;
+	}
+	if (swapped_a && swapped_b)
+	{
+		write(1, "ss\n", 3);
+		print_stacks("ss",a ,b); //debugg
+		if (bench)
+			bench -> ss++;
+	}
+	else if (swapped_a)
+	{
+		write(1, "sa\n", 3);
+		if	(bench)
+			bench -> sa++;
+	}
+	else if (swapped_b)
+	{
+		write(1, "sb\n", 3);
+		if (bench)
+			bench -> sb++;
+	}
 }

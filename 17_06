@@ -1,0 +1,297 @@
+# push_swap — Diário de Desenvolvimento
+
+> **Projeto:** push_swap — 42 Porto  
+> **Login:** `aantela-`  
+> **Estrutura de dados:** Lista duplamente ligada circular  
+> **Estado atual:** `sort_simple` funcional + sistema de benchmark completo
+
+---
+
+## Estrutura do Projeto
+
+```
+push_swap/
+├── main_t.c             # Entry point
+├── push_swap.h          # Header — structs, enums, protótipos
+├── push_swap_utils.c    # node_builder, add_bottom, init_stack_a
+├── parse_args.c         # parse_flags, is_sorted, is_numeric, ft_atoi_safe, has_duplicate
+├── erro_handler.c       # free_stack, handle_error_and_exit
+├── utils.c              # ft_strcmp, ft_split, free_array
+├── swap.c               # sa, sb, ss
+├── rotate.c             # ra, rb, rr
+├── reverse_rotate.c     # rra, rrb, rrr
+├── push.c               # pa, pb
+├── simple_sort.c        # sort_simple (estratégia O(n²))
+├── bench.c              # compute_disorder, print_bench
+├── debug.c              # print_stacks (debug apenas — remover antes de entregar)
+└── Makefile
+```
+
+---
+
+## Estruturas de Dados
+
+```c
+typedef struct s_node
+{
+    int             value;
+    struct s_node   *next;
+    struct s_node   *previous;
+}                   t_node;
+
+typedef struct s_stack
+{
+    t_node  *top;
+    t_node  *bottom;
+    int     size;
+}           t_stack;
+
+typedef enum e_strategy
+{
+    STRAT_ADAPTIVE,
+    STRAT_SIMPLE,
+    STRAT_MEDIUM,
+    STRAT_COMPLEX
+}   t_strategy;
+
+typedef struct s_config
+{
+    t_strategy  strategy;
+    int         bench_mode;
+}               t_config;
+
+typedef struct s_bench
+{
+    int sa;  int sb;  int ss;
+    int pa;  int pb;
+    int ra;  int rb;  int rr;
+    int rra; int rrb; int rrr;
+}           t_bench;
+```
+
+---
+
+## Flags Disponíveis
+
+```bash
+./push_swap [flags] <números>
+```
+
+| Flag | Efeito |
+|------|--------|
+| `--simple` | Usa `sort_simple` — O(n²) |
+| `--medium` | Usa `sort_medium` — (a implementar) |
+| `--complex` | Usa `sort_complex` — (a implementar) |
+| `--adaptative` | Seleciona estratégia automaticamente — (a implementar) |
+| `--bench` | Ativa modo benchmark — imprime relatório para stderr |
+
+As flags são processadas antes dos números e podem ser combinadas:
+```bash
+./push_swap --bench --simple 5 3 8 1 6
+```
+
+---
+
+## Assinaturas das Operações
+
+Todas as operações recebem `t_bench *bench` para contagem e, quando aplicável, a segunda stack para o debug visual.
+
+```c
+void    sa(t_stack *a, t_stack *b, t_bench *bench);
+void    sb(t_stack *b, t_stack *a, t_bench *bench);
+void    ss(t_stack *a, t_stack *b, t_bench *bench);
+
+void    pa(t_stack *a, t_stack *b, t_bench *bench);
+void    pb(t_stack *a, t_stack *b, t_bench *bench);
+
+void    ra(t_stack *a, t_stack *b, t_bench *bench);
+void    rb(t_stack *b, t_stack *a, t_bench *bench);
+void    rr(t_stack *a, t_stack *b, t_bench *bench);
+
+void    rra(t_stack *a, t_stack *b, t_bench *bench);
+void    rrb(t_stack *b, t_stack *a, t_bench *bench);
+void    rrr(t_stack *a, t_stack *b, t_bench *bench);
+```
+
+> **Nota:** `sb`, `rb`, `rrb` recebem `(b, a, bench)` — a stack que operam primeiro, depois a outra para o debug.
+
+---
+
+## Sistema de Debug (`debug.c`)
+
+Imprime o estado das duas stacks para **stderr** após cada operação, sem poluir o stdout (onde vão os moves).
+
+```c
+void    print_stacks(const char *op, t_stack *a, t_stack *b);
+```
+
+Chamada dentro de cada operação:
+```c
+void    ra(t_stack *a, t_stack *b, t_bench *bench)
+{
+    if (!a || !a->top || !a->top->next)
+        return ;
+    rotate(a);
+    write(1, "ra\n", 3);
+    print_stacks("ra", a, b);   // debug
+    if (bench)
+        bench->ra++;
+}
+```
+
+**Output de exemplo:**
+```
+ra
+  [ra]
+  A (4): 3 | 5 | 8 | 1
+  B (1): 6
+  ─────────────────────
+```
+
+Como o debug vai para stderr, o stdout continua limpo para os testers:
+```bash
+./push_swap --simple 5 3 8 1 6 | wc -l    # conta moves sem interferência
+./push_swap --simple 5 3 8 1 6 2>/dev/null # suprime o debug
+```
+
+> **Remover antes de entregar:** retirar `debug.c` do Makefile e apagar as chamadas a `print_stacks` em cada operação.
+
+---
+
+## Sistema de Benchmark (`bench.c`)
+
+### `compute_disorder`
+
+Calcula o disorder do input original (antes do sort) usando contagem de inversões:
+
+```
+disorder = inversões / pares_totais * 100
+```
+
+Onde um par `(i, j)` é uma inversão se `i < j` mas `a[i] > a[j]`.  
+O máximo de pares possíveis é `n*(n-1)/2`.
+
+```c
+double  compute_disorder(t_stack *a);
+```
+
+**Exemplo:** `5 3 8 1 6`
+```
+Inversões: (5,3) (5,1) (3,1) (8,1) (8,6) → 5
+Total de pares: 10
+Disorder: 5/10 * 100 = 50.00%
+```
+
+### `print_bench`
+
+Imprime o relatório completo para stderr, apenas quando `--bench` está ativo:
+
+```c
+void    print_bench(t_bench *bench, t_config *config, double disorder);
+```
+
+**Output de exemplo:**
+```
+[bench] Disorder:    50.00%
+[bench] Strategy:    simple [O(n²)]
+[bench] Operations:  10
+[bench]   sa: 1   sb: 0   ss: 0
+[bench]   pa: 2   pb: 2
+[bench]   ra: 3   rb: 0   rr: 0
+[bench]   rra: 2  rrb: 0  rrr: 0
+```
+
+### Integração no `main`
+
+```c
+double  disorder;
+
+bench = (t_bench){0};
+start_index = parse_flags(argc, argv, &config);
+
+// ... parsing do input ...
+
+disorder = compute_disorder(&stack_a);    // antes do sort
+
+if (config.strategy == STRAT_SIMPLE)
+    sort_simple(&stack_a, &stack_b, &bench);
+
+if (config.bench_mode)
+    print_bench(&bench, &config, disorder);
+```
+
+---
+
+## `sort_simple` — Estratégia O(n²)
+
+Algoritmo de selection sort adaptado para as operações do push_swap:
+
+1. Enquanto `a->size > 3`: encontra o mínimo, roda-o para o topo com `ra`/`rra`, faz `pb`
+2. Ordena os 3 elementos restantes com `sort_three`
+3. Devolve todos os elementos de B para A com `pa`
+
+```c
+void    sort_simple(t_stack *a, t_stack *b, t_bench *bench)
+{
+    while (a->size > 3)
+    {
+        rotate_to_top(a, b, get_min_index(a), bench);
+        if (is_sorted(a))       // early exit — já ordenada após rotação
+            return ;
+        pb(a, b, bench);
+    }
+    sort_three(a, b, bench);
+    while (b->top)
+        pa(a, b, bench);
+}
+```
+
+**Complexidade:** O(n²) — `get_min_index` e `rotate_to_top` são ambos O(n), repetidos n vezes.
+
+**Early exit:** após cada `rotate_to_top`, verifica `is_sorted` — evita operações desnecessárias em inputs quase ordenados (ex: `1 2 3 4 5 6 7 8 9 0` resolve em apenas 1 `rra`).
+
+### `sort_three`
+
+Casos possíveis para 3 elementos:
+```
+top > mid && top > bot  →  ra          (maior no topo, vai para o fundo)
+bot < top && bot < mid  →  rra         (menor no fundo, vai para o topo)
+top > next              →  sa          (swap final se necessário)
+```
+
+Protegido para 1 e 2 elementos também:
+```c
+if (a->size < 2)
+    return ;
+if (a->size == 2)
+{
+    if (a->top->value > a->top->next->value)
+        sa(a, b, bench);
+    return ;
+}
+```
+
+---
+
+## Decisões de Design
+
+**Porquê `t_bench *bench` em todas as operações em vez de global?**  
+A Norminette proíbe variáveis globais. Passar o ponteiro pela cadeia de chamadas é a alternativa mais limpa — o `main` cria o `bench`, passa para o sort, que passa para cada operação.
+
+**Porquê `if (bench)` nos contadores?**  
+Permite passar `NULL` se no futuro houver contextos onde não se quer contagem, sem necessidade de um `bench` inicializado.
+
+**Porquê `compute_disorder` antes do sort?**  
+O disorder representa o estado inicial do input — quão desordenado estava antes do algoritmo atuar. Calculá-lo depois do sort daria sempre 0%.
+
+**Porquê `dprintf` no debug e `write` no bench?**  
+O `dprintf` é conveniente para o debug temporário. O bench usa `write` diretamente com funções auxiliares próprias (`bench_putstr`, `bench_putint`) para não depender de `printf` da libc nem do `ft_printf` que não suporta `%f`.
+
+---
+
+## A Implementar
+
+- `sort_medium` — estratégia para inputs médios (~100 elementos)
+- `sort_complex` — estratégia para inputs grandes (~500 elementos)  
+- `STRAT_ADAPTIVE` — seletor automático baseado em `stack->size`
+- Remover `debug.c` e chamadas a `print_stacks` antes da entrega final
