@@ -52,19 +52,14 @@ void	indexer(t_stack *stack)
 
 int	ft_sqrt(int nb)
 {
-	int	sq1;
-	int	sq2;
+	int	sq;
 
-	sq1 = 1;
-	sq2 = 1;
-	while ((sq1 <= nb) && (sq2 <= nb))
+	sq = 1;
+	while ((sq <= nb))
 	{
-		if (sq1 * sq2 == nb)
-		{
-			return (sq1);
-		}
-		sq1++;
-		sq2++;
+		if (sq * sq >= nb)
+			return (sq);
+		sq++;
 	}
 	return (0);
 }

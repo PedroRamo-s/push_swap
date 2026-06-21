@@ -70,13 +70,15 @@ t_node	*best_selector_b(t_stack *stack)
 void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 {
 	int		chunk_size;
+	int chunk_num;
 	int		chunk_min;
 	int		chunk_max;
 	double	size;
 	t_node	*selected_node;
 
 	size = stack_a->size;
-	chunk_size = ft_sqrt(size);
+	chunk_num = ft_sqrt(size);
+	chunk_size = size / chunk_num;
 	chunk_max = chunk_size - 1;
 	chunk_min = 0;
 	while (chunk_min < size)
@@ -98,7 +100,6 @@ void	sort_medium(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 {
 	t_node	*selected_node;
 
-	printf("aaaaa");
 	indexer(stack_a);
 	push_chunks_b(stack_a, stack_b, bench);
 	while (stack_b->top)
