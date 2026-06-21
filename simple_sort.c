@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 14:50:12 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 05:12:48 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/21 20:58:23 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	sort_simple(t_stack *a, t_stack *b, t_bench *bench)
 	{
 		rotate_to_top(a, b, get_min_index(a), bench);
 		if (is_sorted(a))
-			return ;
+			break ;
 		pb(a, b, bench);
 	}
 	sort_three(a, b, bench);

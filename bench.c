@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 00:00:00 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/21 20:57:16 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,13 @@ static const char	*strategy_name(t_strategy strategy)
 ** Imprime o relatorio de benchmark para stderr.
 ** Chamada no main apos o sort, so se config.bench_mode == 1.
 */
-void	print_bench(t_bench *bench, t_config *config, double disorder)
+void	print_bench(t_bench *bench, t_program *prog, double disorder)
 {
 	bench_putstr("[bench] Disorder:    ");
 	bench_putpercent(disorder);
 	write(2, "\n", 1);
 	bench_putstr("[bench] Strategy:    ");
-	bench_putstr(strategy_name(config->strategy));
+	bench_putstr(strategy_name(prog->strategy));
 	write(2, "\n", 1);
 	bench_putstr("[bench] Operations:  ");
 	bench_putint(total_ops(bench));
