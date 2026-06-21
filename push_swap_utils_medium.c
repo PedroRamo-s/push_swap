@@ -45,19 +45,19 @@ void	indexer(t_stack *stack)
 
 	values = array_filler(stack);
 	if (!values)
-		return ;
+		return;
 	index_assigner(stack, values);
 	free(values);
 }
 
-int	ft_sqrt(int nb)
+int	chunk_count(int size)
 {
 	int	sq;
 
 	sq = 1;
-	while ((sq <= nb))
+	while ((sq <= size))
 	{
-		if (sq * sq >= nb)
+		if (sq * sq >= size)
 			return (sq);
 		sq++;
 	}

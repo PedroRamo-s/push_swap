@@ -93,7 +93,7 @@ int					*array_filler(t_stack *stack);
 
 void				index_assigner(t_stack *stack, int *values);
 void				indexer(t_stack *stack);
-int					ft_sqrt(int nb);
+int					chunk_count(int size);
 
 // operadores
 // adicionado a sa e sb stack temporarias para debug.

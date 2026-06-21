@@ -77,7 +77,7 @@ void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 	t_node	*selected_node;
 
 	size = stack_a->size;
-	chunk_num = ft_sqrt(size);
+	chunk_num = chunk_count(size);
 	chunk_size = size / chunk_num;
 	chunk_max = chunk_size - 1;
 	chunk_min = 0;
