@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 14:50:12 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 05:12:48 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/21 20:13:29 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	rotate_to_top(t_stack *a, t_stack *b, int min_index, t_bench *bench)
 	}
 }
 
-static void	sort_three(t_stack *a, t_stack *b, t_bench *bench)
+void	sort_three(t_stack *a, t_stack *b, t_bench *bench)
 {
 	int	top;
 	int	mid;
@@ -77,6 +77,11 @@ static void	sort_three(t_stack *a, t_stack *b, t_bench *bench)
 		ra(a, b, bench);
 	else if (bot < top && bot < mid)
 		rra(a, b, bench);
+	else if (mid > top && mid > bot)
+	{
+		sa (a, b, bench);
+		ra(a , b, bench);
+	}
 	if (a->top->value > a->top->next->value)
 		sa(a, b, bench);
 }
@@ -87,7 +92,7 @@ void	sort_simple(t_stack *a, t_stack *b, t_bench *bench)
 	{
 		rotate_to_top(a, b, get_min_index(a), bench);
 		if (is_sorted(a))
-			return ;
+			break ;
 		pb(a, b, bench);
 	}
 	sort_three(a, b, bench);

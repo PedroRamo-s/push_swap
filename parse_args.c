@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/13 05:27:37 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/21 19:45:05 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,32 +81,6 @@ int	has_duplicate(t_stack *stack, int value)
 	return (0);
 }
 
-int	parse_flags(int	argc, char **argv, t_config *config)
-{
-	int	i;
-
-	i = 1;
-	config -> strategy = STRAT_ADAPTIVE;
-	config -> bench_mode = 0;
-	while (i < argc)
-	{
-		if (ft_strcmp(argv[i], "--bench") == 0)
-			config -> bench_mode = 1;
-		else if (ft_strcmp(argv[i], "--simple") == 0)
-			config -> strategy = STRAT_SIMPLE;
-		else if (ft_strcmp(argv[i], "--medium") == 0)
-			config -> strategy = STRAT_MEDIUM;
-		else if (ft_strcmp(argv[i], "--complex") == 0)
-			config -> strategy = STRAT_COMPLEX;
-		else if (ft_strcmp(argv[i], "--adaptative") == 0)
-			config -> strategy = STRAT_ADAPTIVE;
-		else
-			break ;
-		i++;
-	}
-	return (i);
-}
-
 int	is_sorted(t_stack *stack)
 {
 	t_node	*current;
@@ -122,3 +96,4 @@ int	is_sorted(t_stack *stack)
 	}
 	return (1);
 }
+

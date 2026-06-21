@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 00:00:00 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/21 19:57:32 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,28 +119,28 @@ static int	total_ops(t_bench *bench)
 /*
 ** Devolve a string da estrategia e complexidade.
 */
-static const char	*strategy_name(t_strategy strategy)
+const char	*strategy_name(t_strategy strategy)
 {
 	if (strategy == STRAT_SIMPLE)
 		return ("simple [O(n²)]");
 	if (strategy == STRAT_MEDIUM)
-		return ("medium [O(n log n)]");
+		return ("medium [O(n\\sqrt{n})]");
 	if (strategy == STRAT_COMPLEX)
 		return ("complex [O(n log n)]");
-	return ("adaptive [O(n log n)]");
+	return ("adaptive");
 }
 
 /*
 ** Imprime o relatorio de benchmark para stderr.
 ** Chamada no main apos o sort, so se config.bench_mode == 1.
 */
-void	print_bench(t_bench *bench, t_config *config, double disorder)
+void	print_bench(t_bench *bench, t_program *prog, double disorder)
 {
 	bench_putstr("[bench] Disorder:    ");
 	bench_putpercent(disorder);
 	write(2, "\n", 1);
 	bench_putstr("[bench] Strategy:    ");
-	bench_putstr(strategy_name(config->strategy));
+	bench_putstr(strategy_name(prog->strategy));
 	write(2, "\n", 1);
 	bench_putstr("[bench] Operations:  ");
 	bench_putint(total_ops(bench));
