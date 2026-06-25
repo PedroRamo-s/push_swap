@@ -6,116 +6,58 @@
 /*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 01:06:03 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/17 05:24:31 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/23 06:00:00 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*void	rotate(t_node **stack)
-{
-	t_node *current;
-	t_node *first;
-	t_node *last;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-		return ;
-	first = *stack;
-    current = *stack;
-	*stack = first->next;
-	(*stack)->previous = NULL;
-	while ((current->next) != NULL)
-	{
-		current = current->next;
-	}
-	last = current;
-	current->next = first;
-	first->previous = last;
-	first->next = NULL;
-}
-
-void ra(t_node **stack_a)
-{
-    rotate(stack_a);
-    ft_printf("ra\n");
-}
-
-void rb(t_node **stack_b)
-{
-    rotate(stack_b);
-    ft_printf("rb\n");
-}*/
-
 #include "push_swap.h"
 
-static void	rotate(t_stack *s)
+static void	rotate(t_list *s)
 {
 	t_node	*first;
 
-	if (!s || !s->top || !s->top->next)
+	if (!s || !s->head || !s->head->next)
 		return ;
-	first = s->top;
-	s->top = first->next;
-	s->top->previous = NULL;
+	first = s->head;
+	s->head = first->next;
+	s->head->previous = NULL;
+	first->previous = s->tail;
+	s->tail->next = first;
 	first->next = NULL;
-	first->previous = s->bottom;
-	s->bottom->next = first;
-	s->bottom = first;
+	s->tail = first;
 }
-void	ra(t_stack *a, t_stack *b, t_bench *bench)
+
+void	ra(t_program *prog)
 {
-	if (!a || !a->top || !a->top->next)
+	if (!prog->a.head || !prog->a.head->next)
 		return ;
-	rotate(a);
+	rotate(&prog->a);
 	write(1, "ra\n", 3);
-	print_stacks("ra", a, b);
-	if (bench)
-		bench -> ra++;
+	print_stacks("ra", prog);
+	if (prog->bench_mode)
+		prog->bench.ra++;
 }
 
-void	rb(t_stack *b, t_stack *a, t_bench *bench)
+void	rb(t_program *prog)
 {
-	if (!b || !b->top || !b->top->next)
+	if (!prog->b.head || !prog->b.head->next)
 		return ;
-	rotate(b);
+	rotate(&prog->b);
 	write(1, "rb\n", 3);
-	print_stacks("rb", a, b);
-	if (bench)
-		bench -> rb++;
+	print_stacks("rb", prog);
+	if (prog->bench_mode)
+		prog->bench.rb++;
 }
 
-void	rr(t_stack *a, t_stack *b, t_bench *bench)
+void	rr(t_program *prog)
 {
-	int	rotated_a;
-	int	rotated_b;
-
-	rotated_a = 0;
-	rotated_b = 0;
-	if (a && a->top && a->top->next)
-	{
-		rotate(a);
-		rotated_a = 1;
-	}
-	if (b && b->top && b->top->next)
-	{
-		rotate(b);
-		rotated_b = 1;
-	}
-	if (rotated_a && rotated_b)
-	{
-		write(1, "rr\n", 3);
-		print_stacks("rr", a, b);
-		if (bench)
-			bench -> rr++;
-	}
-	else if (rotated_a)
-	{
-		write(1, "ra\n", 3);
-		if (bench)
-			bench -> ra++;
-	}
-	else if (rotated_b)
-	{
-		write(1, "rb\n", 3);
-		if (bench)
-			bench -> rb++;
-	}
+	if (!prog->a.head || !prog->a.head->next
+		|| !prog->b.head || !prog->b.head->next)
+		return ;
+	rotate(&prog->a);
+	rotate(&prog->b);
+	write(1, "rr\n", 3);
+	print_stacks("rr", prog);
+	if (prog->bench_mode)
+		prog->bench.rr++;
 }

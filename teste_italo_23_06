@@ -1,0 +1,191 @@
+================================================================================
+  BASIC & EDGE-CASE TESTS
+================================================================================
+
+>> [1/10] Small-N operation counts (exhaustive permutations)
+   N=3: GOOD<=3, PASS<=5    N=5: GOOD<=12, PASS<=15
+   N   | MODE     | MAX OPS | GRADE  | SORTED   | PERMS
+   ----------------------------------------------------
+   3   | simple   | 2       | GOOD   | OK       | 6
+   3   | medium   | 0       | GOOD   | 5 BAD    | 6
+   3   | complex  | 0       | GOOD   | 5 BAD    | 6
+   3   | adaptive | 2       | GOOD   | OK       | 6
+   5   | simple   | 10      | GOOD   | OK       | 120
+   5   | medium   | 0       | GOOD   | 119 BAD  | 120
+   5   | complex  | 0       | GOOD   | 119 BAD  | 120
+   5   | adaptive | 10      | GOOD   | OK       | 120
+
+>> [2/10] Reversed input — 100% disorder (worst case)
+   N    | MODE     | OPS     | GRADE      | SORTED
+   ------------------------------------------------
+   3    | simple   | 2       | GOOD       | OK
+   3    | medium   | 0       | GOOD       | FAIL
+   3    | complex  | 0       | GOOD       | FAIL
+   3    | adaptive | 2       | GOOD       | OK
+   5    | simple   | 8       | GOOD       | OK
+   5    | medium   | 0       | GOOD       | FAIL
+   5    | complex  | 0       | GOOD       | FAIL
+   5    | adaptive | 8       | GOOD       | OK
+   10   | simple   | 23      | --         | OK
+   10   | medium   | 0       | --         | FAIL
+   10   | complex  | 0       | --         | FAIL
+   10   | adaptive | 23      | --         | OK
+   50   | simple   | 143     | --         | OK
+   50   | medium   | 0       | --         | FAIL
+   50   | complex  | 0       | --         | FAIL
+   50   | adaptive | 143     | --         | OK
+   100  | simple   | 293     | EXCELLENT  | OK
+   100  | medium   | 0       | N/A        | FAIL
+   100  | complex  | 0       | N/A        | FAIL
+   100  | adaptive | 293     | EXCELLENT  | OK
+   500  | simple   | 1493    | EXCELLENT  | OK
+   500  | medium   | 0       | N/A        | FAIL
+   500  | complex  | 0       | N/A        | FAIL
+   500  | adaptive | 1493    | EXCELLENT  | OK
+
+>> [3/10] Already-sorted input — must output 0 operations
+   Rule: sorted input must produce 0 ops (empty output) and no Error.
+   N    | MODE     | OPS     | RESULT   | DETAIL
+   ----------------------------------------------------
+   1    | simple   | 0       | PASS     | 
+   1    | medium   | 0       | PASS     | 
+   1    | complex  | 0       | PASS     | 
+   1    | adaptive | 0       | PASS     | 
+   2    | simple   | 0       | PASS     | 
+   2    | medium   | 0       | PASS     | 
+   2    | complex  | 0       | PASS     | 
+   2    | adaptive | 0       | PASS     | 
+   3    | simple   | 0       | PASS     | 
+   3    | medium   | 0       | PASS     | 
+   3    | complex  | 0       | PASS     | 
+   3    | adaptive | 0       | PASS     | 
+   5    | simple   | 0       | PASS     | 
+   5    | medium   | 0       | PASS     | 
+   5    | complex  | 0       | PASS     | 
+   5    | adaptive | 0       | PASS     | 
+   10   | simple   | 0       | PASS     | 
+   10   | medium   | 0       | PASS     | 
+   10   | complex  | 0       | PASS     | 
+   10   | adaptive | 0       | PASS     | 
+   50   | simple   | 0       | PASS     | 
+   50   | medium   | 0       | PASS     | 
+   50   | complex  | 0       | PASS     | 
+   50   | adaptive | 0       | PASS     | 
+   100  | simple   | 0       | PASS     | 
+   100  | medium   | 0       | PASS     | 
+   100  | complex  | 0       | PASS     | 
+   100  | adaptive | 0       | PASS     | 
+   500  | simple   | 0       | PASS     | 
+   500  | medium   | 0       | PASS     | 
+   500  | complex  | 0       | PASS     | 
+   500  | adaptive | 0       | PASS     | 
+
+>> [4/10] Nearly-sorted input — single adjacent swap (edge cases)
+   Note: only one inversion; must sort correctly (0 ops here would mean it wrongly thinks the input is sorted).
+   CASE                | INPUT                   | MODE     | OPS     | SORTED   | DETAIL
+   --------------------------------------------------------------------------------
+   last two swapped    | 1 2 3 4 5 6 7 8 10 9    | simple   | 16      | OK       | 
+   last two swapped    | 1 2 3 4 5 6 7 8 10 9    | medium   | 0       | FAIL     | not sorted (0 ops on unsorted input?)
+   last two swapped    | 1 2 3 4 5 6 7 8 10 9    | complex  | 0       | FAIL     | not sorted (0 ops on unsorted input?)
+   last two swapped    | 1 2 3 4 5 6 7 8 10 9    | adaptive | 16      | OK       | 
+   first two swapped   | 2 1 3 4 5 6 7 8 9 10    | simple   | 4       | OK       | 
+   first two swapped   | 2 1 3 4 5 6 7 8 9 10    | medium   | 0       | FAIL     | not sorted (0 ops on unsorted input?)
+   first two swapped   | 2 1 3 4 5 6 7 8 9 10    | complex  | 0       | FAIL     | not sorted (0 ops on unsorted input?)
+   first two swapped   | 2 1 3 4 5 6 7 8 9 10    | adaptive | 4       | OK       | 
+
+>> [5/10] Error handling
+   Rule: invalid input -> exactly "Error\n" on fd2 (nothing on fd1); valid edge inputs must sort; no args -> no output.
+   CASE                          | INPUT                 | RESULT   | DETAIL
+   --------------------------------------------------------------------------------
+   "1a" trailing char            | 1 2 1a                | PASS     | Error on fd2
+   "1.0" float                   | 1 2.0 3               | PASS     | Error on fd2
+   "abc" non-numeric             | abc                   | PASS     | Error on fd2
+   lone "-"                      | 4 - 3                 | PASS     | Error on fd2
+   lone "+"                      | 4 + 3                 | PASS     | Error on fd2
+   "6-" malformed                | 4 6- 3                | PASS     | Error on fd2
+   "6-1" malformed               | 4 6-1 3               | PASS     | Error on fd2
+   "6+1" malformed               | 4 6+1 3               | PASS     | Error on fd2
+   > INT_MAX                     | 2147483648            | PASS     | Error on fd2
+   < INT_MIN                     | -2147483649           | PASS     | Error on fd2
+   LONG overflow                 | 9 9223372036854775808 | PASS     | Error on fd2
+   duplicate value               | 1 2 2 3               | PASS     | Error on fd2
+   0 and +0 duplicate            | 2 22 0 +0             | PASS     | Error on fd2
+   0 and -0 duplicate            | 2 22 0 -0             | PASS     | Error on fd2
+   empty number in middle        | 3 2 "" 1 4 5          | PASS     | Error on fd2
+   empty arg ""                  | ""                    | PASS     | Error on fd2
+   space arg " "                 | " "                   | PASS     | Error on fd2
+   INT_MAX & INT_MIN valid       | 2147483647 -2147483648| PASS     | accepted & sorted
+   "+0" valid (no dup)           | 2 22 12 +0            | PASS     | accepted & sorted
+   negatives valid               | 9 8 7 -6              | PASS     | accepted & sorted
+   no arguments -> no output     | (none)                | PASS     | no output (correct)
+
+>> [6/10] Argument parsing — split / multi-number args
+   FORM              | EXAMPLE               | RESULT                  | DETAIL
+   ------------------------------------------------------------------------------
+   separate args     | 1 2 3 4 5             | ACCEPTED                | sorted OK
+   single arg        | "1 2 3 4 5"           | ACCEPTED                | sorted OK
+   mixed / split     | 1 2 "3 4" 5 "6 7"     | ACCEPTED                | sorted OK
+
+>> [7/10] Mode specialization — each mode should win on its own number type
+   Idea: on '<type>' numbers, --<type> should use the fewest ops (tolerance 10%).
+==   NUMBERS \ MODE  | simple    | medium    | complex   | adaptive  | 
+   ------------------------------------------------------------------
+   simple numbers  | 930       | --        | --        | 930       | 
+   medium numbers  | 1292      | --        | --        | 1292      | 
+   complex numbers | 1456      | --        | --        | 1456      | 
+   * = matching mode (expected best for that number type)
+   INVALID: all strategies produce identical operation counts — the --simple/--medium/--complex flags are not differentiated (each mode must run a different algorithm).
+
+>> [8/10] Default strategy — no flag should behave like --adaptive
+   Rule: running with no flag must sort, and should match --adaptive.
+   INPUT                 | NO-FLAG OPS | ADAPTIVE OPS | SORTS   | MATCHES ADAPTIVE
+   ------------------------------------------------------------------------------
+   5 4 3 2 1             | 8           | 8            | OK      | yes
+   2 1 0                 | 2           | 2            | OK      | yes
+   1 5 2 4 3             | 6           | 6            | OK      | yes
+
+>> [9/10] Benchmark mode (--bench)
+   Optional: fd1 must still sort; the fd2 report should name the strategy and show the disorder %.
+   RUN                        | FD1 SORTS | STRATEGY    | DISORDER          | RESULT
+   ------------------------------------------------------------------------------------
+   --bench --simple (rev)     | OK        | simple      | 100.00%           | OK
+   --bench --medium (rev)     | FAIL      | medium      | 100.00%           | check
+   --bench --complex (rev)    | FAIL      | complex     | 100.00%           | check
+   --bench --adaptive (rev)   | OK        | adaptive    | 100.00%           | OK
+   disorder accuracy (random sizes; expected vs reported):
+   INPUT                      | SIZE  | EXPECTED    | BENCH %           | RESULT
+   --------------------------------------------------------------------------
+   5 random nums              | 5     | 40.00%      | 40.00%            | OK
+   5 random nums              | 5     | 20.00%      | 20.00%            | OK
+   5 random nums              | 5     | 20.00%      | 20.00%            | OK
+   10 random nums             | 10    | 64.44%      | 64.44%            | OK
+   20 random nums             | 20    | 54.74%      | 54.73%            | OK
+   100 random nums            | 100   | 51.05%      | 51.05%            | OK
+   5 random nums              | 5     | 0.00%       | none !=exp        | check
+   5 random nums              | 5     | 100.00%     | 100.00%           | OK
+
+   Note: --bench is optional (not a failing requirement), but its fd2 report should name the strategy and report the disorder accurately (0..100%).
+
+>> [10/10] Memory & crashes (valgrind / leaks)
+   CASE            | TOOL     | LEAKED        | MEM ERRORS  | CRASH   | RESULT
+   ------------------------------------------------------------------------------
+   valid 5         | valgrind | 0 B           | 0           | no      | OK
+   valid 100       | valgrind | 0 B           | 0           | no      | OK
+   already sorted  | valgrind | 0 B           | 0           | no      | OK
+   error (dup)     | valgrind | 0 B           | 0           | no      | OK
+   no args         | valgrind | 0 B           | 0           | no      | OK
+
+================================================================================
+  BASICS SUMMARY
+================================================================================
+  Small-N op counts (3,5)     : FAIL (4)
+  Reversed input              : FAIL (12)
+  Sorted -> 0 ops             : PASS
+  Nearly-sorted (1 swap)      : FAIL (4)
+  Error handling              : PASS
+  Split / multi-number args   : PASS
+  Mode specialization         : FAIL (1)
+  Default flag (adaptive)     : PASS
+  Benchmark mode (--bench)    : WARN (3)
+  Memory & crashes            : PASS
+  ----------------------------------------

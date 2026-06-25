@@ -6,20 +6,20 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 14:50:12 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 05:12:48 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/24 21:51:07 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	get_min_index(t_stack *a)
+static int	get_min_index(t_list *a)
 {
 	t_node	*current;
 	int		min;
 	int		index;
 	int		min_index;
 
-	current = a->top;
+	current = a->head;
 	min = current->value;
 	index = 0;
 	min_index = 0;
@@ -36,61 +36,68 @@ static int	get_min_index(t_stack *a)
 	return (min_index);
 }
 
-static void	rotate_to_top(t_stack *a, t_stack *b, int min_index, t_bench *bench)
+static void	otate_to_top(t_program *prog, int min_index)
 {
 	int	distance;
 
-	if (min_index <= a->size / 2)
+	if (min_index <= prog->a.size / 2)
 		distance = min_index;
 	else
-		distance = min_index - a->size;
+		distance = min_index - prog->a.size;
 	while (distance > 0)
 	{
-		ra(a, b, bench);
+		ra(prog);
 		distance--;
 	}
 	while (distance < 0)
 	{
-		rra(a, b, bench);
+		rra(prog);
 		distance++;
 	}
 }
 
-static void	sort_three(t_stack *a, t_stack *b, t_bench *bench)
+void	sort_three(t_program *prog)
 {
-	int	top;
+	int	head;
 	int	mid;
 	int	bot;
-	
-	if (a->size < 2)
-        return ;
-    if (a->size == 2)
-    {
-        if (a->top->value > a->top->next->value)
-            sa(a, b, bench);
-        return ;
+
+	if (prog->a.size < 2)
+		return ;
+	if (prog->a.size == 2)
+	{
+		if (prog->a.head->value > prog->a.head->next->value)
+			sa(prog);
+		return ;
 	}
-	top = a->top->value;
-	mid = a->top->next->value;
-	bot = a->top->next->next->value;
-	if (top > mid && top > bot)
-		ra(a, b, bench);
-	else if (bot < top && bot < mid)
-		rra(a, b, bench);
-	if (a->top->value > a->top->next->value)
-		sa(a, b, bench);
+	head = prog->a.head->value;
+	mid = prog->a.head->next->value;
+	bot = prog->a.head->next->next->value;
+	if (head > mid && head > bot)
+		ra(prog);
+	else if (bot < head && bot < mid)
+		rra(prog);
+	else if (mid > head && mid > bot)
+	{
+		sa(prog);
+		ra(prog);
+	}
+	if (prog->a.head->value > prog->a.head->next->value)
+		sa(prog);
 }
 
-void	sort_simple(t_stack *a, t_stack *b, t_bench *bench)
+void	sort_simple(t_program *prog)
 {
-	while (a->size > 3)
+	if (prog->a.size < 2 || is_sorted(&prog->a))
+		return ;
+	while (prog->a.size > 3)
 	{
-		rotate_to_top(a, b, get_min_index(a), bench);
-		if (is_sorted(a))
-			return ;
-		pb(a, b, bench);
+		otate_to_top(prog, get_min_index(&prog->a));
+		if (is_sorted(&prog->a))
+			break ;
+		pb(prog);
 	}
-	sort_three(a, b, bench);
-	while (b->top)
-		pa(a, b, bench);
+	sort_three(prog);
+	while (prog->b.head)
+		pa(prog);
 }

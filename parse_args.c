@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/13 05:27:37 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/23 03:52:25 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ int	is_numeric(char *str)
 	return (1);
 }
 
-int	has_duplicate(t_stack *stack, int value)
+int	has_duplicate(t_list *stack, int value)
 {
 	t_node *current;
 
-	if (!stack || !stack -> top)
+	if (!stack || !stack -> head)
 		return (0);
-	current = stack -> top;
+	current = stack -> head;
 	while (current)
 	{
 		if (current -> value == value)
@@ -81,39 +81,13 @@ int	has_duplicate(t_stack *stack, int value)
 	return (0);
 }
 
-int	parse_flags(int	argc, char **argv, t_config *config)
-{
-	int	i;
-
-	i = 1;
-	config -> strategy = STRAT_ADAPTIVE;
-	config -> bench_mode = 0;
-	while (i < argc)
-	{
-		if (ft_strcmp(argv[i], "--bench") == 0)
-			config -> bench_mode = 1;
-		else if (ft_strcmp(argv[i], "--simple") == 0)
-			config -> strategy = STRAT_SIMPLE;
-		else if (ft_strcmp(argv[i], "--medium") == 0)
-			config -> strategy = STRAT_MEDIUM;
-		else if (ft_strcmp(argv[i], "--complex") == 0)
-			config -> strategy = STRAT_COMPLEX;
-		else if (ft_strcmp(argv[i], "--adaptative") == 0)
-			config -> strategy = STRAT_ADAPTIVE;
-		else
-			break ;
-		i++;
-	}
-	return (i);
-}
-
-int	is_sorted(t_stack *stack)
+int	is_sorted(t_list *stack)
 {
 	t_node	*current;
 
-	if (!stack || !stack -> top || stack -> size < 2)
+	if (!stack || !stack -> head || stack -> size < 2)
 		return (1);
-	current = stack -> top;
+	current = stack -> head;
 	while (current -> next != NULL)
 	{
 		if (current -> value > current -> next -> value)
@@ -122,3 +96,4 @@ int	is_sorted(t_stack *stack)
 	}
 	return (1);
 }
+

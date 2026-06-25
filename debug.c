@@ -6,28 +6,13 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 04:30:47 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/23 06:00:00 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-** Apenas para debug — remover antes de entregar.
-** Redireciona para stderr para não poluir o stdout (onde vão os moves).
-**
-** Uso:
-**     print_stacks("pb", a, b);
-**
-** Exemplo de output:
-**
-**   [pb]
-**   A (4): 3 | 1 | 2 | 4
-**   B (1): 5
-**   ─────────────────────
-*/
-
-static void	print_stack_line(const char *label, t_stack *s)
+static void	print_stack_line(const char *label, t_list *s)
 {
 	t_node	*cur;
 	char	buf[16];
@@ -36,12 +21,12 @@ static void	print_stack_line(const char *label, t_stack *s)
 	int		neg;
 
 	dprintf(2, "  %s (%d): ", label, s->size);
-	if (!s->top)
+	if (!s->head)
 	{
 		dprintf(2, "(vazia)\n");
 		return ;
 	}
-	cur = s->top;
+	cur = s->head;
 	while (cur)
 	{
 		n = cur->value;
@@ -70,10 +55,15 @@ static void	print_stack_line(const char *label, t_stack *s)
 	dprintf(2, "\n");
 }
 
-void	print_stacks(const char *op, t_stack *a, t_stack *b)
+void	print_stacks(const char *op, const t_program *prog)
 {
+	if (!prog)
+	{
+		dprintf(2, "[Debug Error]: Programa não inicializado.\n");
+		return ;
+	}
 	dprintf(2, "\n  [%s]\n", op);
-	print_stack_line("A", a);
-	print_stack_line("B", b);
+	print_stack_line("A", (t_list *)&prog->a);
+	print_stack_line("B", (t_list *)&prog->b);
 	dprintf(2, "  ─────────────────────\n");
 }

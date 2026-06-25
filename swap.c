@@ -6,88 +6,63 @@
 /*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 16:15:36 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/17 05:19:56 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/23 06:00:00 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	swap(t_stack *s)
+static void	swap(t_list *s)
 {
 	t_node	*first;
 	t_node	*second;
 
-	if (!s || !s->top || !s->top->next)
+	if (!s || !s->head || !s->head->next)
 		return ;
-	first = s->top;
+	first = s->head;
 	second = first->next;
 	first->next = second->next;
 	if (second->next)
 		second->next->previous = first;
 	else
-		s->bottom = first;
+		s->tail = first;
 	second->previous = NULL;
 	second->next = first;
 	first->previous = second;
-	s->top = second;
+	s->head = second;
 }
-//temporariamente modificado para impressao de debug.
-void	sa(t_stack *a, t_stack *b, t_bench *bench)
+
+void	sa(t_program *prog)
 {
-	if (!a || !a->top || !a->top->next)
+	if (!prog->a.head || !prog->a.head->next)
 		return ;
-	swap(a);
+	swap(&prog->a);
 	write(1, "sa\n", 3);
-	print_stacks("sa", a, b); //debug
-	if (bench)
-		bench -> sa++;
+	print_stacks("sa", prog);
+	if (prog->bench_mode)
+		prog->bench.sa++;
 }
-//temporariamente modificador para impressar de debug.
-void	sb(t_stack *b, t_stack *a, t_bench *bench)
+
+void	sb(t_program *prog)
 {
-	if (!b || !b->top || !b->top->next)
+	if (!prog->b.head || !prog->b.head->next)
 		return ;
-	swap(b);
+	swap(&prog->b);
 	write(1, "sb\n", 3);
-	print_stacks("sb", a, b);//debug
-	if (bench)
-		bench -> sb++;
+	print_stacks("sb", prog);
+	if (prog->bench_mode)
+		prog->bench.sb++;
 }
 
-void	ss(t_stack *a, t_stack *b, t_bench *bench)
+void	ss(t_program *prog)
 {
-	int	swapped_a;
-	int	swapped_b;
-
-	swapped_a = 0;
-	swapped_b = 0;
-	if (a && a->top && a->top->next)
-	{
-		swap(a);
-		swapped_a = 1;
-	}
-	if (b && b->top && b->top->next)
-	{
-		swap(b);
-		swapped_b = 1;
-	}
-	if (swapped_a && swapped_b)
-	{
-		write(1, "ss\n", 3);
-		print_stacks("ss",a ,b); //debugg
-		if (bench)
-			bench -> ss++;
-	}
-	else if (swapped_a)
-	{
-		write(1, "sa\n", 3);
-		if	(bench)
-			bench -> sa++;
-	}
-	else if (swapped_b)
-	{
-		write(1, "sb\n", 3);
-		if (bench)
-			bench -> sb++;
-	}
+	if (!prog->a.head || !prog->a.head->next
+		|| !prog->b.head || !prog->b.head->next)
+		return ;
+	swap(&prog->a);
+	swap(&prog->b);
+	write(1, "ss\n", 3);
+	print_stacks("ss", prog);
+	if (prog->bench_mode)
+		prog->bench.ss++;
 }
