@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/21 20:54:32 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/13 05:27:37 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	has_duplicate(t_stack *stack, int value)
 	return (0);
 }
 
-/*int	parse_flags(int	argc, char **argv, t_config *config)
+int	parse_flags(int	argc, char **argv, t_config *config)
 {
 	int	i;
 
@@ -105,7 +105,7 @@ int	has_duplicate(t_stack *stack, int value)
 		i++;
 	}
 	return (i);
-}*/
+}
 
 int	is_sorted(t_stack *stack)
 {

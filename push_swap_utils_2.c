@@ -12,61 +12,45 @@
 
 #include "push_swap.h"
 
-void	index_assigner(t_stack *stack, int *values)
+int find_max_pos(t_stack *b)
 {
-	int		i;
-	int		j;
-	int		rank;
-	int		size;
-	t_node	*tmp;
+    t_node  *curr;
+    int     max_val;
+    int     max_pos;
+    int     curr_pos;
 
-	i = 0;
-	size = stack->size;
-	tmp = stack->top;
-	while (i < size)
-	{
-		j = 0;
-		rank = 0;
-		while (j < size)
-		{
-			if (values[i] > values[j])
-				rank++;
-			j++;
-		}
-		tmp->index = rank;
-		tmp = tmp->next;
-		i++;
-	}
+    curr = b->top;
+    max_val = curr->value;
+    max_pos = 0;
+    curr_pos = 0;
+    while (curr)
+    {
+        if (curr->value > max_val)
+        {
+            max_val = curr->value;
+            max_pos = curr_pos;
+        }
+        curr_pos++;
+        curr = curr->next;
+    }
+    return (max_pos);
 }
 
-void	indexer(t_stack *stack)
+int find_target_b(t_stack *b, int value_a)
 {
-	int	*values;
+    t_node  *curr;
+    int     pos;
 
-	values = array_filler(stack);
-	if (!values)
-		return;
-	index_assigner(stack, values);
-	free(values);
-}
-
-int	chunk_count(int size)
-{
-	int	sq;
-
-	sq = 1;
-	while ((sq <= size))
-	{
-		if (sq * sq >= size)
-			return (sq);
-		sq++;
-	}
-	return (0);
-}
-
-int	cost_calculator(int position, int stack_size)
-{
-	if (position <= (stack_size / 2))
-		return (position);
-	return (stack_size - position);
+    curr = b->top;
+    pos = 1;
+    while (curr->next)
+    {
+        if (curr->value > value_a && curr->next->value < value_a)
+            return (pos);
+        pos++;
+        curr = curr->next;
+    }
+    if (curr->value > value_a && b->top->value < value_a)
+        return (0); 
+    return (find_max_pos(b));
 }

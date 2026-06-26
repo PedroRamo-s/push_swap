@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/21 20:55:45 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/17 05:45:09 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ typedef struct s_node
 	struct s_node	*previous;
 }					t_node;
 
+typedef struct s_move_plan
+{
+	int				moves_a;
+	int				direction_a;
+	int				moves_b;
+	int				direction_b;
+	int				total_cost;
+	t_node			*target_a;
+}					t_move_plan;
+
 typedef struct s_stack
 {
 	t_node			*top;
@@ -35,7 +45,6 @@ typedef struct s_stack
 
 typedef enum e_strategy
 {
-	STRAT_NONE,
 	STRAT_ADAPTIVE,
 	STRAT_SIMPLE,
 	STRAT_MEDIUM,
@@ -57,17 +66,11 @@ typedef struct s_bench
 	int				rrr;
 }					t_bench;
 
-typedef struct s_program
+typedef struct s_config
 {
-	t_stack     a;
-	t_stack     b;
-	t_bench     bench;
-	t_strategy  strategy;
-	int         bench_mode;
-	int         start_index;
-	int         end_index;
-	double      disorder;
-}               t_program;
+	t_strategy		strategy;
+	int				bench_mode;
+}					t_config;
 // DEGUG TOOLS
 void				print_stacks(const char *op, t_stack *a, t_stack *b);
 
@@ -79,7 +82,7 @@ void				free_stack(t_stack *stack);
 int					ft_atoi_safe(const char *str, int *result);
 int					is_numeric(char *str);
 int					has_duplicate(t_stack *stack, int value);
-int					parse_flags(int argc, char **argv, t_program *prog);
+int					parse_flags(int argc, char **argv, t_config *config);
 int					is_sorted(t_stack *stack);
 
 // PUSH_SWAP_UTILS.C
@@ -87,6 +90,14 @@ t_node				*node_builder(int value);
 void				add_bottom(t_stack *stack, int value);
 void				init_stack_a(t_stack *stack_a, int argc, char **argv,
 						int start_index);
+void				selection_plan(t_stack *stack, t_move_plan *plan);
+void				plan_executor(t_stack *a, t_stack *b, t_move_plan *plan,
+						t_bench *bench);
+
+// PUSH_SWAP_UTILS_2.c
+
+int					find_max_pos(t_stack *b);
+int					find_target_b(t_stack *b, int value_a);
 
 // UTILS
 int					ft_strcmp(const char *s1, const char *s2);
@@ -101,6 +112,7 @@ int					*array_filler(t_stack *stack);
 void				index_assigner(t_stack *stack, int *values);
 void				indexer(t_stack *stack);
 int					chunk_count(int size);
+int					cost_calculator(int position, int stack_size);
 
 // operadores
 // adicionado a sa e sb stack temporarias para debug.
@@ -125,5 +137,6 @@ void				sort_medium(t_stack *a, t_stack *b, t_bench *bench);
 
 // BENCH
 double				compute_disorder(t_stack *a);
-void				print_bench(t_bench *bench, t_program *prog, double disorder);
+void				print_bench(t_bench *bench, t_config *config,
+						double disorder);
 #endif

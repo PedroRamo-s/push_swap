@@ -13,12 +13,12 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-int	cost_calculator(int position, int stack_size)
+/*int	cost_calculator(int position, int stack_size)
 {
 	if (position <= (stack_size / 2))
 		return (position);
 	return (stack_size - position);
-}
+}*/
 
 t_node	*best_selector_a(t_stack *stack, int chunk_max, int chunk_min)
 {

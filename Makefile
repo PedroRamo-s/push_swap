@@ -6,22 +6,22 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/06/21 20:49:17 by aantela-         ###   ########.fr        #
+#    Updated: 2026/06/17 05:43:30 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= push_swap
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -march=native -g
+CFLAGS	= -Wall -Wextra -Werror -march=native
  
 
-SRCS	= main_novo.c \
+SRCS	= main_t.c \
 		  debug.c \
 		  erro_handler.c \
 		  parse_args.c \
-		  parse_args_utils.c \
 		  push_swap_utils.c \
+		  push_swap_utils_2.c \
 		  push_swap_utils_medium.c \
 		  bench.c \
 		  utils.c \
