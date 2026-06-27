@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/25 15:26:44 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 06:42:13 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,24 +120,26 @@ void	sort_simple(t_program *prog);
 void	sort_medium(t_program *prog);
 //medium utils
 void	index_assigner(t_list *stack, int *values);
+t_node  *best_selector_a(t_list *stack, int chunk_max, int chunk_min);
 void	indexer(t_list *stack);
 int		chunk_count(int size);
-
-/* complex teste
-int	get_pos(t_stack *s, t_node *target);
+//complex sort teste
+void	complex_sort(t_program *prog);
+int	get_pos(t_list *s, t_node *target);
 int	signed_cost(int pos, int size);
 int	compute_total(int ca, int cb);
-t_node	*stack_max(t_stack *s);
-t_node	*stack_min(t_stack *s);
-int	find_target_b(t_stack *b, int val);
-int	find_target_a(t_stack *a, int val);
-int	node_cost(t_stack *a, t_stack *b, t_node *node);
-t_node	*find_cheapest(t_stack *a, t_stack *b);
-void	do_rotations(t_stack *a, t_stack *b, t_bench *bench, int ca, int cb);
-void	rotate_a_to_pos(t_stack *a, t_stack *b, t_bench *bench, int pos);
-void	move_cheapest(t_stack *a, t_stack *b, t_bench *bench);*/
+t_node *stack_max(t_list *s);
+t_node *stack_min(t_list *s);
+int find_target_a(t_list *a, int val);
+int node_cost(t_list *a, t_list *b, t_node *node);
+t_node  *find_cheapest(t_list *a, t_list *b);
+void	do_rotations(t_program *prog, int ca, int cb);
+void	rotate_a_to_pos(t_program *prog, int pos_a);
+void	move_cheapest(t_program *prog);
+void	sort_complex(t_program *prog);
 // BENCH
 double	compute_disorder(t_list *a);
 int	*copy_stack_to_array(t_list *a);
 void	print_bench(t_program *prog, double disorder);
+
 #endif

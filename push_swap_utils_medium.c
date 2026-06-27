@@ -1,25 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap_utils_medium.c                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 14:36:26 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/25 15:20:26 by aantela-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "push_swap.h"
 
 static int	get_rank(int *values, int size, int i)
 {
-	int j;
+	int	j;
 	int	rank;
 
 	j = 0;
 	rank = 0;
-	while (j <size)
+	while (j < size)
 	{
 		if (values[i] > values[j])
 			rank++;
@@ -27,6 +15,7 @@ static int	get_rank(int *values, int size, int i)
 	}
 	return (rank);
 }
+
 void	index_assigner(t_list *stack, int *values)
 {
 	int		i;
@@ -38,8 +27,8 @@ void	index_assigner(t_list *stack, int *values)
 	tmp = stack->head;
 	while (i < size)
 	{
-		tmp -> index = get_rank(values, size, i);
-		tmp = tmp -> next;
+		tmp->index = get_rank(values, size, i);
+		tmp = tmp->next;
 		i++;
 	}
 }
@@ -47,7 +36,7 @@ void	index_assigner(t_list *stack, int *values)
 void	indexer(t_list *stack)
 {
 	int	*values;
-	printf("chegou no indexer \n");
+
 	values = array_filler(stack);
 	if (!values)
 		return ;
@@ -58,15 +47,9 @@ void	indexer(t_list *stack)
 int	ft_sqrt(int nb)
 {
 	int	i;
-	printf("chamou sei la quem de ft_sqrt\n");
+
 	i = 1;
 	while (i * i <= nb)
-	{
-		if (i * i == nb)
-		{
-			return (i);
-		}
 		i++;
-	}
 	return (i - 1);
 }

@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 04:48:56 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/24 21:54:13 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 07:01:40 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,60 @@ static void	cleanup_and_error(t_program *prog, char **split_args)
 	exit(1);
 }
 
+static void	parse_one_arg(t_program *prog, char **split_args)
+{
+	int	j;
+	int	value;
+
+	j = 0;
+	while (split_args[j])
+	{
+		if (!is_numeric(split_args[j])
+			|| ft_atoi_safe(split_args[j], &value) == 0
+			|| has_duplicate(&prog->a, value))
+			cleanup_and_error(prog, split_args);
+		create_and_add_bottom(&prog->a, value);
+		j++;
+	}
+}
+
+static void	parse_args(t_program *prog, char **argv)
+{
+	char	**split_args;
+
+	while (prog->start_index <= prog->end_index)
+	{
+		split_args = ft_split(argv[prog->start_index]);
+		if (!split_args || !split_args[0])
+			cleanup_and_error(prog, split_args);
+		parse_one_arg(prog, split_args);
+		free_array(split_args);
+		prog->start_index++;
+	}
+}
+
+static void	resolve_and_sort(t_program *prog)
+{
+	if (prog->strategy == STRAT_ADAPTIVE)
+	{
+		if (prog->a.size <= 11 || prog->disorder < 0.21)
+			prog->strategy = STRAT_SIMPLE;
+		else if (prog->disorder < 0.35 && prog->a.size <= 100)
+			prog->strategy = STRAT_MEDIUM;
+		else
+			prog->strategy = STRAT_COMPLEX;
+	}
+	if (prog->strategy == STRAT_SIMPLE)
+		sort_simple(prog);
+	if (prog->strategy == STRAT_MEDIUM)
+		sort_medium(prog);
+	if (prog->strategy == STRAT_COMPLEX)
+		complex_sort(prog);
+}
+
 int	main(int argc, char **argv)
 {
 	t_program	prog;
-	char		**split_args;
-	int			j;
-	int			value;
 
 	if (argc < 2)
 		return (0);
@@ -34,24 +82,7 @@ int	main(int argc, char **argv)
 	parse_flags(argc, argv, &prog);
 	if (prog.start_index > prog.end_index)
 		return (0);
-	while (prog.start_index <= prog.end_index)
-	{
-		split_args = ft_split(argv[prog.start_index]);
-		if (!split_args || !split_args[0])
-			cleanup_and_error(&prog, split_args);
-		j = 0;
-		while (split_args[j])
-		{
-			if (!is_numeric(split_args[j])
-				|| ft_atoi_safe(split_args[j], &value) == 0
-				|| has_duplicate(&prog.a, value))
-				cleanup_and_error(&prog, split_args);
-			create_and_add_bottom(&prog.a, value);
-			j++;
-		}
-		free_array(split_args);
-		prog.start_index++;
-	}
+	parse_args(&prog, argv);
 	prog.disorder = compute_disorder(&prog.a);
 	if (is_sorted(&prog.a))
 	{
@@ -59,11 +90,8 @@ int	main(int argc, char **argv)
 		free_stack(&prog.b);
 		return (0);
 	}
-	if (prog.strategy == STRAT_SIMPLE)
-		sort_simple(&prog);//bom para desordem 0-10 || 90-100 n = 100 
-	if (prog.strategy == STRAT_MEDIUM)
-		sort_medium(&prog);
-if (prog.bench_mode)
+	resolve_and_sort(&prog);
+	if (prog.bench_mode)
 		print_bench(&prog, prog.disorder);
 	free_stack(&prog.a);
 	free_stack(&prog.b);
