@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/27 06:05:40 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 06:42:13 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	sort_simple(t_program *prog);
 void	sort_medium(t_program *prog);
 //medium utils
 void	index_assigner(t_list *stack, int *values);
+t_node  *best_selector_a(t_list *stack, int chunk_max, int chunk_min);
 void	indexer(t_list *stack);
 int		chunk_count(int size);
 //complex sort teste
@@ -135,7 +136,7 @@ t_node  *find_cheapest(t_list *a, t_list *b);
 void	do_rotations(t_program *prog, int ca, int cb);
 void	rotate_a_to_pos(t_program *prog, int pos_a);
 void	move_cheapest(t_program *prog);
-
+void	sort_complex(t_program *prog);
 // BENCH
 double	compute_disorder(t_list *a);
 int	*copy_stack_to_array(t_list *a);

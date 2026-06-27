@@ -6,7 +6,7 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/06/27 06:10:32 by aantela-         ###   ########.fr        #
+#    Updated: 2026/06/27 06:36:19 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS	= main_novo.c \
 		  simple_sort.c \
 		  medium_sort_teste.c \
 		  complex_sort.c \
+		  complex_sort_utils.c \
 		  complex_sort_utils_1.c \
 		  complex_sort_utils_2.c \
 		  complex_sort_utils_3.c

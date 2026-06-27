@@ -138,7 +138,7 @@ void	push_chunks_b(t_program *prog)
 			selected_node = best_selector_a(&prog->a, chunk_max, chunk_min);
 			if (selected_node == NULL)
 				break ;
-			rotate_to_top(prog, selected_node);
+			rotate_to_top(&prog->a, selected_node, prog);
 			push_and_sort_b(prog);
 		}
 		chunk_min += chunk_size;
