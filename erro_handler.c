@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 15:08:31 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/23 03:50:51 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 14:55:24 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	free_stack(t_list *stack)
 	stack -> size = 0;
 }
 
-void	handle_error_and_exit(t_list *stack)
+void	free_all_stack(t_program *prog)
 {
-	free_stack(stack);
-	write(2, "Error\n", 6);
-	exit(1);
+	free_stack(&prog->a);
+	free_stack(&prog->b);
 }

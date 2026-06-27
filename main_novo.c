@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 04:48:56 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/27 07:01:40 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 15:22:52 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,21 @@ static void	resolve_and_sort(t_program *prog)
 {
 	if (prog->strategy == STRAT_ADAPTIVE)
 	{
-		if (prog->a.size <= 11 || prog->disorder < 0.21)
-			prog->strategy = STRAT_SIMPLE;
-		else if (prog->disorder < 0.35 && prog->a.size <= 100)
-			prog->strategy = STRAT_MEDIUM;
+		if (prog->disorder < 0.2)
+		{
+			sort_simple(prog);
+			prog->adaptive = STRAT_SIMPLE;
+		}
+		else if (prog -> disorder >0.2 && prog->disorder < 0.5)
+		{
+			sort_medium(prog);
+			prog->adaptive = STRAT_MEDIUM;
+		}
 		else
-			prog->strategy = STRAT_COMPLEX;
+		{
+			complex_sort(prog);
+			prog->adaptive = STRAT_COMPLEX;
+		}
 	}
 	if (prog->strategy == STRAT_SIMPLE)
 		sort_simple(prog);
@@ -86,14 +95,14 @@ int	main(int argc, char **argv)
 	prog.disorder = compute_disorder(&prog.a);
 	if (is_sorted(&prog.a))
 	{
-		free_stack(&prog.a);
-		free_stack(&prog.b);
+		free_all_stack(&prog);
+		if (prog.bench_mode)
+			print_bench(&prog, prog.disorder);
 		return (0);
 	}
 	resolve_and_sort(&prog);
 	if (prog.bench_mode)
 		print_bench(&prog, prog.disorder);
-	free_stack(&prog.a);
-	free_stack(&prog.b);
+	free_all_stack(&prog);
 	return (0);
 }

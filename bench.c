@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/24 21:18:20 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 15:26:57 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ const char	*strategy_name(t_strategy strategy)
 		return ("medium [O(n\\sqrt{n})]");
 	if (strategy == STRAT_COMPLEX)
 		return ("complex [O(n log n)]");
-	return ("adaptive");
+	return ("Adaptive");
 }
 
 /*
@@ -148,6 +148,11 @@ void	print_bench(t_program *prog, double disorder)
 	write(2, "\n", 1);
 	bench_putstr("[bench] Strategy:    ");
 	bench_putstr(strategy_name(prog->strategy));
+	if (prog->adaptive)
+	{
+		bench_putstr("/ ");
+		bench_putstr(strategy_name(prog->adaptive));
+	}
 	write(2, "\n", 1);
 	bench_putstr("[bench] Operations:  ");
 	bench_putint(total_ops(&prog->bench));

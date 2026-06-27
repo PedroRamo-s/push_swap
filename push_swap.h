@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/27 06:42:13 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/27 15:20:27 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_program
 	t_list		b;
 	t_bench		bench;
 	t_strategy	strategy;
+	t_strategy	adaptive;
 	int			bench_mode;
 	int			start_index;
 	int			end_index;
@@ -75,6 +76,7 @@ void	print_stacks(const char *op, const t_program *prog);
 //ERRO_HANDLER.C
 void	handle_error_and_exit(t_list *stack);
 void	free_stack(t_list *stack);
+void	free_all_stack(t_program *prog);
 
 //PARSE_ARGS.C
 int		ft_atoi_safe(const char *str, int *result);
