@@ -6,24 +6,12 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:08:38 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/25 15:26:01 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/29 16:11:26 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*t_node	*node_builder(int value)
-{
-	t_node *node;
-
-	node = malloc(sizeof(t_node));
-	if (!node)
-		return (NULL);
-	node->next = NULL;
-	node->previous = NULL;
-    node->value = value;
-	return (node);
-}*/
 void	create_and_add_bottom(t_list *stack, int value)
 {
 	if (!stack)
@@ -50,25 +38,6 @@ void	create_and_add_bottom(t_list *stack, int value)
 		stack -> size++;
 	}
 }
-
-/*void	init_stack_a(t_stack *stack_a, int argc, char **argv, int start_index)
-{
-	int	value;
-	stack_a -> top = NULL;
-	stack_a -> bottom = NULL;
-	stack_a -> size = 0;
-	while (start_index < argc)
-	{
-		if (!is_numeric(argv[start_index]))
-			handle_error_and_exit(stack_a);
-		if (ft_atoi_safe(argv[start_index], &value) == 0)
-			handle_error_and_exit(stack_a);
-		if (has_duplicate(stack_a, value))
-			handle_error_and_exit(stack_a);
-		add_bottom(stack_a, value);
-		start_index++;
-	}
-}*/
 
 void	rotate_to_top(t_list *stack , t_node *target, t_program *prog)
 {
@@ -119,4 +88,47 @@ int	*array_filler(t_list *stack)
 		i++;
 	}
 	return (values);
+}
+
+int find_max_pos(t_list *b)
+{
+    t_node  *curr;
+    int     max_val;
+    int     max_pos;
+    int     curr_pos;
+
+    curr = b->head;
+    max_val = curr->value;
+    max_pos = 0;
+    curr_pos = 0;
+    while (curr)
+    {
+        if (curr->value > max_val)
+        {
+            max_val = curr->value;
+            max_pos = curr_pos;
+        }
+        curr_pos++;
+        curr = curr->next;
+    }
+    return (max_pos);
+}
+
+int find_target_b(t_list *b, int value_a)
+{
+    t_node  *curr;
+    int     pos;
+
+    curr = b->head;
+    pos = 1;
+    while (curr->next)
+    {
+        if (curr->value > value_a && curr->next->value < value_a)
+            return (pos);
+        pos++;
+        curr = curr->next;
+    }
+    if (curr->value > value_a && b->head->value < value_a)
+        return (0);
+    return (find_max_pos(b));
 }

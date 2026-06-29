@@ -5,25 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/29 16:34:41 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/29 16:42:59 by aantela-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   medium_sort.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:34 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/13 15:35:35 by pgois-wa         ###   ########.fr       */
+/*   Updated: 2026/06/25 00:00:00 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
 int	cost_calculator(int position, int stack_size)
 {
@@ -43,13 +30,11 @@ t_node	*best_selector_a(t_list *stack, int chunk_max, int chunk_min)
 	tmp = stack->head;
 	current_position = 0;
 	best_node = NULL;
-	best_cost = stack->size;
-	while (tmp)
+	best_cost = stack->size + 1;
+	while (current_position < stack->size)
 	{
 		if (tmp->index >= chunk_min && tmp->index <= chunk_max)
 		{
-			if (tmp->index >= chunk_min && tmp->index <= chunk_max)
-				printf("MATCH: %d\n", tmp->index);
 			current_cost = cost_calculator(current_position, stack->size);
 			if (current_cost < best_cost)
 			{
@@ -63,34 +48,87 @@ t_node	*best_selector_a(t_list *stack, int chunk_max, int chunk_min)
 	return (best_node);
 }
 
-t_node	*best_selector_b(t_list *stack)
+static t_node	*max_selector_b(t_list *stack)
 {
 	t_node	*tmp;
 	t_node	*best_node;
+	int		i;
 
 	tmp = stack->head;
 	best_node = tmp;
-	while (tmp)
+	i = 0;
+	while (i < stack->size)
 	{
 		if (tmp->index > best_node->index)
 			best_node = tmp;
 		tmp = tmp->next;
+		i++;
 	}
 	return (best_node);
+}
+
+static int	get_position_b(t_list *stack, t_node *target)
+{
+	t_node	*tmp;
+	int		pos;
+
+	tmp = stack->head;
+	pos = 0;
+	while (tmp != target)
+	{
+		pos++;
+		tmp = tmp->next;
+	}
+	return (pos);
+}
+
+static void	rotate_to_top_b(t_program *prog, t_node *target)
+{
+	int	distance;
+	int	position;
+
+	position = get_position_b(&prog->b, target);
+	if (position <= prog->b.size / 2)
+		distance = position;
+	else
+		distance = position - prog->b.size;
+	while (distance > 0)
+	{
+		rb(prog);
+		distance--;
+	}
+	while (distance < 0)
+	{
+		rrb(prog);
+		distance++;
+	}
+}
+
+/*
+** Após cada pb, se o novo topo de B tiver índice MAIOR que o segundo,
+** faz sb para manter B ordenado decrescente do topo.
+** Isso reduz as rotações no drain porque o máximo fica mais perto do topo.
+*/
+static void	push_and_sort_b(t_program *prog)
+{
+	pb(prog);
+	if (prog->b.size >= 2
+		&& prog->b.head->index < prog->b.head->next->index)
+		sb(prog);
 }
 
 void	push_chunks_b(t_program *prog)
 {
 	int		chunk_size;
-	int chunk_num;
 	int		chunk_min;
 	int		chunk_max;
-	double	size;
+	int		size;
 	t_node	*selected_node;
 
 	size = prog->a.size;
-	chunk_num = chunk_count(size);
-	chunk_size = size / chunk_num;
+	chunk_size = size / 7;
+	if (chunk_size < 1)
+		chunk_size = 1;
 	chunk_max = chunk_size - 1;
 	chunk_min = 0;
 	while (chunk_min < size)
@@ -100,8 +138,8 @@ void	push_chunks_b(t_program *prog)
 			selected_node = best_selector_a(&prog->a, chunk_max, chunk_min);
 			if (selected_node == NULL)
 				break ;
-			rotate_to_top(&prog->a, selected_node,prog);
-			pb(prog);
+			rotate_to_top(&prog->a, selected_node, prog);
+			push_and_sort_b(prog);
 		}
 		chunk_min += chunk_size;
 		chunk_max += chunk_size;
@@ -110,14 +148,14 @@ void	push_chunks_b(t_program *prog)
 
 void	sort_medium(t_program *prog)
 {
-	t_node	*selected_node;
+	t_node	*best;
 
 	indexer(&prog->a);
 	push_chunks_b(prog);
 	while (prog->b.head)
 	{
-		selected_node = best_selector_b(&prog->b);
-		rotate_to_top(&prog->b, selected_node, prog);
+		best = max_selector_b(&prog->b);
+		rotate_to_top_b(prog, best);
 		pa(prog);
 	}
 }

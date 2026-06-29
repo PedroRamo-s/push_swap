@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/29 14:58:23 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/06/29 16:28:48 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ typedef struct s_list
 	t_node	*tail;
 	int		size;
 }			t_list;
+
+typedef struct s_move_plan
+{
+	int				moves_a;
+	int				direction_a;
+	int				moves_b;
+	int				direction_b;
+	int				total_cost;
+	t_node			*target_a;
+}					t_move_plan;
 
 typedef enum e_strategy
 {
@@ -72,24 +82,18 @@ typedef struct s_program
 
 // DEGUG TOOLS
 void	print_stacks(const char *op, const t_program *prog);
-
 //ERRO_HANDLER.C
 void	handle_error_and_exit(t_list *stack);
 void	free_stack(t_list *stack);
 void	free_all_stack(t_program *prog);
-
 //PARSE_ARGS.C
 int		ft_atoi_safe(const char *str, int *result);
 int		is_numeric(char *str);
 int		has_duplicate(t_list *stack, int value);
 int		parse_flags(int argc, char **argv, t_program *prog);
 int		is_sorted(t_list *stack);
-
 //PUSH_SWAP_UTILS.C
-//t_node	*node_builder(int value);
 void	create_and_add_bottom(t_list *stack, int value);
-//void	init_stack_a(t_list *stack_a, int argc, char **argv, int start_index);
-
 //UTILS
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s);
@@ -98,15 +102,12 @@ void	rotate_to_top(t_list *stack, t_node *target, t_program *prog);
 int		*array_filler(t_list *stack);
 int		ft_sqrt(int nb);
 // operadores
-// adicionado a sa e sb stack temporarias para debug.
 void	sa(t_program *prog);
 void	sb(t_program *prog);
 void	ss(t_program *prog);
-//adicionado a ra e rb stack temporarias para debug.
 void	ra(t_program *prog);
 void	rb(t_program *prog);
 void	rr(t_program *prog);
-//adicioonado a rra rrb stack temporarias para debug.
 void	rra(t_program *prog);
 void	rrb(t_program *prog);
 void	rrr(t_program *prog);
@@ -116,8 +117,11 @@ void	pb(t_program *prog);
 // simple sort teste
 void	sort_three(t_program *prog);
 void	sort_simple(t_program *prog);
+int find_max_pos(t_list *b);
+int find_target_b(t_list *b, int value_a);
 // medium teste
 void	sort_medium(t_program *prog);
+int	cost_calculator(int position, int stack_size);
 //medium utils
 void	index_assigner(t_list *stack, int *values);
 t_node	*best_selector_a(t_list *stack, int chunk_max, int chunk_min);
