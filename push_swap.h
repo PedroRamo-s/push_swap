@@ -98,6 +98,8 @@ void				plan_executor(t_stack *a, t_stack *b, t_move_plan *plan,
 
 int					find_max_pos(t_stack *b);
 int					find_target_b(t_stack *b, int value_a);
+void				plan_executor(t_stack *a, t_stack *b, t_move_plan *plan,
+						t_bench *bench);
 
 // UTILS
 int					ft_strcmp(const char *s1, const char *s2);

@@ -15,10 +15,30 @@
 
 /*int	cost_calculator(int position, int stack_size)
 {
+	t_node	*current;
+	int		position;
+
 	if (position <= (stack_size / 2))
 		return (position);
 	return (stack_size - position);
 }*/
+int	get_node_position(t_stack *stack, t_node *target_node)
+{
+	t_node	*current;
+	int		position;
+
+	current = stack->top;
+	position = 0;
+	
+	while (current)
+	{
+		if (current == target_node)
+			return (position);
+		current = current->next;
+		position++;
+	}
+	return (0);
+}
 
 t_node	*best_selector_a(t_stack *stack, int chunk_max, int chunk_min)
 {
@@ -69,18 +89,23 @@ t_node	*best_selector_b(t_stack *stack)
 
 void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 {
+	int		chunk_midpoint;
+	int		pending_rb;
 	int		chunk_size;
-	int chunk_num;
+	int		chunk_num;
 	int		chunk_min;
 	int		chunk_max;
 	double	size;
 	t_node	*selected_node;
+	int		a_direction;
 
+	pending_rb = 0;
 	size = stack_a->size;
 	chunk_num = chunk_count(size);
 	chunk_size = size / chunk_num;
 	chunk_max = chunk_size - 1;
 	chunk_min = 0;
+	chunk_midpoint = chunk_min + (chunk_size / 2);
 	while (chunk_min < size)
 	{
 		while (1)
@@ -88,11 +113,31 @@ void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 			selected_node = best_selector_a(stack_a, chunk_max, chunk_min);
 			if (selected_node == NULL)
 				break ;
+			a_direction = (get_node_position(stack_a,
+						selected_node) <= stack_a->size / 2) ? 0 : 1;
+			if (pending_rb && a_direction == 0)
+			{
+				rr(stack_a, stack_b, bench);
+				pending_rb = 0;
+			}
+			else if (pending_rb)
+			{
+				rb(stack_b, stack_a, bench);
+				pending_rb = 0;
+			}
 			rotate_to_top(stack_a, stack_b, selected_node, bench);
 			pb(stack_a, stack_b, bench);
+			if (stack_b->top->index < chunk_midpoint)
+				pending_rb = 1;
+		}
+		if (pending_rb)
+		{
+			rb(stack_b, stack_a, bench);
+			pending_rb = 0;
 		}
 		chunk_min += chunk_size;
 		chunk_max += chunk_size;
+		chunk_midpoint += chunk_size;
 	}
 }
 

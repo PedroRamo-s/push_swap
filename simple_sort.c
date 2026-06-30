@@ -59,8 +59,8 @@ void calculate_insertion_plan(t_stack *a, t_stack *b, t_move_plan *best_plan)
 		current_node_plan.direction_b = (pos_b <= b->size / 2) ? 0 :1; 
 		if(current_node_plan.direction_a == current_node_plan.direction_b)
 		{
-			current_node_plan.total_cost = (current_node_plan.direction_a > current_node_plan.direction_b) ?
-											current_node_plan.direction_a : current_node_plan.direction_b;
+			current_node_plan.total_cost = (current_node_plan.moves_a > current_node_plan.moves_b) ?
+											current_node_plan.moves_a : current_node_plan.moves_b;
 		}
 		else
 			current_node_plan.total_cost = current_node_plan.moves_a + current_node_plan.moves_b;
