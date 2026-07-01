@@ -6,15 +6,12 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/27 15:26:57 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 05:17:39 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-** Escreve uma string para stderr.
-*/
 static void	bench_putstr(const char *s)
 {
 	size_t	len;
@@ -25,9 +22,6 @@ static void	bench_putstr(const char *s)
 	write(2, s, len);
 }
 
-/*
-** Escreve um inteiro para stderr.
-*/
 static void	bench_putint(int n)
 {
 	char	buf[12];
@@ -54,10 +48,6 @@ static void	bench_putint(int n)
 	write(2, buf + i, 11 - i);
 }
 
-/*
-** Escreve o disorder em percentagem com 2 casas decimais para stderr.
-** Exemplo: 34.07%
-*/
 static void	bench_putpercent(double value)
 {
 	int	integer;
@@ -80,41 +70,6 @@ static void	bench_putpercent(double value)
 	write(2, "%", 1);
 }
 
-/*
-** Calcula o disorder da stack antes do sort.
-** Conta inversoes (pares i,j onde i<j mas a[i]>a[j])
-** e devolve a percentagem sobre o total de pares possivel.
-*/
-/*double	compute_disorder(t_list *a)
-{
-	t_node	*i;
-	t_node	*j;
-	double	mistakes;
-	double	total_pairs;
-
-	if (!a || a->size < 2)
-		return (0.0);
-	mistakes = 0;
-	total_pairs = 0;
-	i = a->head;
-	while (i)
-	{
-		j = i->next;
-		while (j)
-		{
-			total_pairs++;
-			if (i->value > j->value)
-				mistakes++;
-			j = j->next;
-		}
-		i = i->next;
-	}
-	return (mistakes / total_pairs * 100.0);
-}*/
-
-/*
-** Calcula o total de operacoes a partir do t_bench.
-*/
 static int	total_ops(t_bench *bench)
 {
 	return (bench->sa + bench->sb + bench->ss
@@ -123,47 +78,11 @@ static int	total_ops(t_bench *bench)
 		+ bench->rra + bench->rrb + bench->rrr);
 }
 
-/*
-** Devolve a string da estrategia e complexidade.
-*/
-const char	*strategy_name(t_strategy strategy)
+void	print_bench_operations(t_program *prog)
 {
-	if (strategy == STRAT_SIMPLE)
-		return ("simple [O(n²)]");
-	if (strategy == STRAT_MEDIUM)
-		return ("medium [O(n\\sqrt{n})]");
-	if (strategy == STRAT_COMPLEX)
-		return ("complex [O(n log n)]");
-	return ("Adaptive");
-}
-
-/*
-** Imprime o relatorio de benchmark para stderr.
-** Chamada no main apos o sort, so se config.bench_mode == 1.
-*/
-void	print_bench(t_program *prog, double disorder)
-{
-	bench_putstr("[bench] Disorder:    ");
-	bench_putpercent(disorder);
-	write(2, "\n", 1);
-	bench_putstr("[bench] Strategy:    ");
-	bench_putstr(strategy_name(prog->strategy));
-	if (prog->adaptive)
-	{
-		bench_putstr("/ ");
-		bench_putstr(strategy_name(prog->adaptive));
-	}
-	write(2, "\n", 1);
-	bench_putstr("[bench] Operations:  ");
-	bench_putint(total_ops(&prog->bench));
-	write(2, "\n", 1);
-	bench_putstr("[bench]   sa: ");
-	bench_putint(prog->bench.sa);
-	bench_putstr("   sb: ");
-	bench_putint(prog->bench.sb);
-	bench_putstr("   ss: ");
-	bench_putint(prog->bench.ss);
-	write(2, "\n", 1);
+	ft_printf("[bench] Operations:   %d\n",total_ops(&prog->bench));
+	ft_printf("[bench]   sa: %d sb: %d", prog->bench.sa, prog->bench.sb);
+	ft_printf(" ss: %d\n",prog->bench.ss);
 	bench_putstr("[bench]   pa: ");
 	bench_putint(prog->bench.pa);
 	bench_putstr("   pb: ");
@@ -183,4 +102,14 @@ void	print_bench(t_program *prog, double disorder)
 	bench_putstr("  rrr: ");
 	bench_putint(prog->bench.rrr);
 	write(2, "\n", 1);
+}
+void	print_bench(t_program *prog, double disorder)
+{
+	ft_printf("[bench] Disorder:    ");
+	bench_putpercent(disorder);
+	write(2, "\n", 1);
+	ft_printf("[bench] Strategy:  %s ", strategy_name(prog->strategy));
+	if (prog->adaptive)
+		ft_printf(" / %s \n", strategy_name(prog->adaptive));
+	print_bench_operations(prog);
 }

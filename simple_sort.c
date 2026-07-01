@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 16:12:25 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/29 16:31:45 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 03:22:45 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void calculate_insertion_plan(t_program *prog, t_move_plan *best_plan)
 		current_node_plan.direction_b = (pos_b <= prog -> b.size / 2) ? 0 :1; 
 		if(current_node_plan.direction_a == current_node_plan.direction_b)
 		{
-			current_node_plan.total_cost = (current_node_plan.direction_a > current_node_plan.direction_b) ?
-											current_node_plan.direction_a : current_node_plan.direction_b;
+			current_node_plan.total_cost = (current_node_plan.moves_a > current_node_plan.moves_b) ?
+											current_node_plan.moves_a : current_node_plan.moves_b;
 		}
 		else
 			current_node_plan.total_cost = current_node_plan.moves_a + current_node_plan.moves_b;
@@ -121,7 +121,11 @@ void	sort_simple(t_program *prog)
 	int max_pos_b;
 	int moves_b;
 	int dir_b;
-
+	if (prog->a.size < 4)
+	{
+		sort_three(prog);
+		return ;
+	}
 	pb(prog);
 	pb(prog);
 	if(prog->b.head->value <prog->b.head->next->value)

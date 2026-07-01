@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 18:48:43 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/21 20:06:05 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 04:11:53 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,39 @@ static int	parse_one_flag(const char *flag, t_program *prog)
 	return (1);
 }
 
+static int  process_flags(int argc, char **argv, t_program *prog)
+{   
+    int res;
+
+    while (prog -> start_index < argc)
+    {   
+        res = parse_one_flag(argv[prog -> start_index], prog);
+        if (res == -1)
+            break ;
+        if (res == 0)
+            return (0);
+        prog -> start_index++;
+    }
+    while (prog -> end_index >= prog -> start_index)
+    {   
+        res = parse_one_flag(argv[prog -> end_index], prog);
+        if (res == -1)
+            break ;
+        if (res == 0)
+            return (0);
+        prog -> end_index--;
+    }
+    return (1);
+}   
+
 int	parse_flags(int argc, char **argv, t_program *prog)
 {
-	int	res;
-
 	prog->strategy = STRAT_NONE;
 	prog->bench_mode = 0;
 	prog -> start_index = 1;
 	prog -> end_index = argc - 1;
-	while (prog -> start_index < argc)
-	{
-		res = parse_one_flag(argv[prog -> start_index], prog);
-		if (res == -1)
-			break ;
-		if (res == 0)
-			return (0);
-		prog -> start_index++;
-	}
-	while (prog -> end_index >= prog -> start_index)
-	{
-		res = parse_one_flag(argv[prog -> end_index], prog);
-		if (res == -1)
-			break ;
-		if (res == 0)
-			return (0);
-		prog -> end_index--;
-	}
+	if (!process_flags(argc, argv, prog))
+		return (0);
 	if (prog->strategy == STRAT_NONE)
 		prog->strategy = STRAT_ADAPTIVE;
 	return (1);

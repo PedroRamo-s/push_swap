@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/23 03:52:25 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 04:03:20 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	is_numeric(char *str)
 
 int	has_duplicate(t_list *stack, int value)
 {
-	t_node *current;
+	t_node	*current;
 
 	if (!stack || !stack -> head)
 		return (0);
@@ -96,4 +96,3 @@ int	is_sorted(t_list *stack)
 	}
 	return (1);
 }
-

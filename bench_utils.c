@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/24 20:56:16 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/24 21:19:51 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 05:06:14 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static long long merge_and_count(int *arr, int *temp, int left, int mid, int rig
         else
         {
             temp[k++] = arr[j++];
-            inv_count += (mid - i + 1); // Counts all inversions for arr[j] at once
+            inv_count += (mid - i + 1);
         }
     }
     while (i <= mid)
@@ -83,7 +83,6 @@ double compute_disorder(t_list *a)
 
     if (!a || a->size < 2)
         return (0.0);
-
     arr = copy_stack_to_array(a);
     temp = malloc(sizeof(int) * a->size);
     if (!arr || !temp)
@@ -92,17 +91,21 @@ double compute_disorder(t_list *a)
         free(temp);
         return (0.0);
     }
-
-    // Calculate mistakes in O(n log n) time instead of nested loops
     mistakes = count_inversions(arr, temp, 0, a->size - 1);
-
-    // Total pairs mathematical formula: n * (n - 1) / 2
     total_pairs = ((double)a->size * (a->size - 1)) / 2.0;
-
     free(arr);
     free(temp);
-
-    // Keeping your * 100.0 calculation rule.
-    // Remember to compare with 20.0 and 50.0 in your routing logic!
     return ((double)mistakes / total_pairs);
 }
+
+char  *strategy_name(t_strategy strategy)
+{
+    if (strategy == STRAT_SIMPLE)
+        return ("simple [O(n²)]");
+    if (strategy == STRAT_MEDIUM)
+        return ("medium [O(n\\sqrt{n})]");
+    if (strategy == STRAT_COMPLEX)
+        return ("complex [O(n log n)]");
+    return ("Adaptive");
+}
+

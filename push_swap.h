@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/29 16:28:48 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/01 05:06:24 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
+# include "ft_printf/ft_printf.h"
 
 typedef struct s_node
 {
@@ -49,7 +50,7 @@ typedef enum e_strategy
 	STRAT_ADAPTIVE,
 	STRAT_SIMPLE,
 	STRAT_MEDIUM,
-	STRAT_COMPLEX
+	STRAT_COMPLEX,
 }	t_strategy;
 
 typedef struct s_bench
@@ -75,6 +76,7 @@ typedef struct s_program
 	t_strategy	strategy;
 	t_strategy	adaptive;
 	int			bench_mode;
+	int			count_only;
 	int			start_index;
 	int			end_index;
 	double		disorder;
@@ -121,6 +123,7 @@ int find_max_pos(t_list *b);
 int find_target_b(t_list *b, int value_a);
 // medium teste
 void	sort_medium(t_program *prog);
+int		chunk_count(int size);
 int	cost_calculator(int position, int stack_size);
 //medium utils
 void	index_assigner(t_list *stack, int *values);
@@ -145,5 +148,6 @@ void	sort_complex(t_program *prog);
 double	compute_disorder(t_list *a);
 int		*copy_stack_to_array(t_list *a);
 void	print_bench(t_program *prog, double disorder);
+char	*strategy_name(t_strategy strategy);
 
 #endif

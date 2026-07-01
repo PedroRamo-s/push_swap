@@ -53,3 +53,16 @@ int	ft_sqrt(int nb)
 		i++;
 	return (i - 1);
 }
+int	chunk_count(int size)
+{
+	int	sq;
+
+	sq = 1;
+	while ((sq <= size))
+	{
+		if (sq * sq >= size)
+			return (sq);
+		sq++;
+	}
+	return (0);
+}
