@@ -11,17 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-/*int	cost_calculator(int position, int stack_size)
-{
-	t_node	*current;
-	int		position;
-
-	if (position <= (stack_size / 2))
-		return (position);
-	return (stack_size - position);
-}*/
 int	get_node_position(t_stack *stack, t_node *target_node)
 {
 	t_node	*current;
@@ -87,6 +77,44 @@ t_node	*best_selector_b(t_stack *stack)
 	return (best_node);
 }
 
+void calculate_return_plan(t_stack *a, t_stack *b, t_move_plan *plan)
+{
+    t_node  *current_b;
+    int     pos_b;
+    int     pos_a; 
+
+    plan->total_cost = 2147483647;
+    current_b = b->top;
+    pos_b = 0;
+
+    while (current_b)
+    {
+        t_move_plan current_node_plan;
+
+        current_node_plan.target_b = current_b;
+        current_node_plan.moves_b = cost_calculator(pos_b, b->size);
+        current_node_plan.direction_b = (pos_b <= b->size / 2) ? 0 : 1; 
+        
+        pos_a = find_target_a(a, current_b->index);
+        current_node_plan.moves_a = cost_calculator(pos_a, a->size);
+        current_node_plan.direction_a = (pos_a <= a->size / 2) ? 0 : 1; 
+        
+        if (current_node_plan.direction_a == current_node_plan.direction_b)
+        {
+            current_node_plan.total_cost = (current_node_plan.moves_a > current_node_plan.moves_b) ?
+                                            current_node_plan.moves_a : current_node_plan.moves_b;
+        }
+        else
+            current_node_plan.total_cost = current_node_plan.moves_a + current_node_plan.moves_b;
+            
+        if (current_node_plan.total_cost < plan->total_cost)
+            *plan = current_node_plan;
+            
+        pos_b++;
+        current_b = current_b->next;
+    }
+}
+
 void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 {
 	int		chunk_midpoint;
@@ -143,14 +171,18 @@ void	push_chunks_b(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 
 void	sort_medium(t_stack *stack_a, t_stack *stack_b, t_bench *bench)
 {
-	t_node	*selected_node;
+	t_move_plan plan;
+	int min_node;
 
 	indexer(stack_a);
 	push_chunks_b(stack_a, stack_b, bench);
+	pa(stack_a, stack_b, bench);
 	while (stack_b->top)
 	{
-		selected_node = best_selector_b(stack_b);
-		rotate_to_top(stack_b, stack_a, selected_node, bench);
+		calculate_return_plan(stack_a, stack_b, &plan);
+		plan_executor(stack_a, stack_b, &plan, bench);
 		pa(stack_a, stack_b, bench);
 	}
+	min_node = find_min_pos(stack_a);
+	rotate_to_top_pos(stack_a, stack_b, min_node, bench);
 }

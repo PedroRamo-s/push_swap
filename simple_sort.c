@@ -96,44 +96,6 @@ void calculate_insertion_plan(t_stack *a, t_stack *b, t_move_plan *best_plan)
 		sa(a, b, bench);
 }*/
 
-void plan_executor(t_stack *a, t_stack *b, t_move_plan *plan, t_bench *bench)
-{
-	if(plan->direction_a == 0 && plan->direction_b == 0)
-	{
-		while(plan->moves_a > 0 && plan->moves_b > 0)
-		{
-			rr(a, b, bench);
-			plan->moves_a--;
-			plan->moves_b--;
-		}
-	}
-	if(plan->direction_a == 1 && plan->direction_b == 1)
-	{
-		while(plan->moves_a > 0 && plan->moves_b > 0)
-		{
-			rrr(a, b, bench);
-			plan->moves_a--;
-			plan->moves_b--;
-		}
-	}
-	while(plan->moves_a > 0)
-	{
-		if(plan->direction_a == 0)
-			ra(a, b, bench);
-		else
-			rra(a, b, bench);
-		plan->moves_a--;
-	}
-	while(plan->moves_b > 0)
-	{
-		if(plan->direction_b == 0)
-			rb(b, a, bench);
-		else
-			rrb(b, a, bench);
-		plan->moves_b--;
-	}
-}
-
 void	sort_simple(t_stack *a, t_stack *b, t_bench *bench)
 {
 	t_move_plan plan;

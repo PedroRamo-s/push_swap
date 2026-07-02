@@ -34,6 +34,7 @@ typedef struct s_move_plan
 	int				direction_b;
 	int				total_cost;
 	t_node			*target_a;
+	t_node			*target_b;
 }					t_move_plan;
 
 typedef struct s_stack
@@ -100,6 +101,10 @@ int					find_max_pos(t_stack *b);
 int					find_target_b(t_stack *b, int value_a);
 void				plan_executor(t_stack *a, t_stack *b, t_move_plan *plan,
 						t_bench *bench);
+int					find_target_a(t_stack *a, int val_b);
+int					find_min_pos(t_stack *a);
+void				plan_executor(t_stack *a, t_stack *b, t_move_plan *plan,
+						t_bench *bench);
 
 // UTILS
 int					ft_strcmp(const char *s1, const char *s2);
@@ -115,6 +120,8 @@ void				index_assigner(t_stack *stack, int *values);
 void				indexer(t_stack *stack);
 int					chunk_count(int size);
 int					cost_calculator(int position, int stack_size);
+void				rotate_to_top_pos(t_stack *a, t_stack *b, int position,
+						t_bench *bench);
 
 // operadores
 // adicionado a sa e sb stack temporarias para debug.

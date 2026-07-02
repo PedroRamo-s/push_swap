@@ -22,7 +22,7 @@ SRCS	= main_t.c \
 		  parse_args.c \
 		  push_swap_utils.c \
 		  push_swap_utils_2.c \
-		  push_swap_utils_medium.c \
+		  medium_sort_utils.c \
 		  bench.c \
 		  utils.c \
 		  utils_1.c	\
