@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 04:48:56 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/01 03:24:23 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/02 04:28:06 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ int	main(int argc, char **argv)
 			print_bench(&prog, prog.disorder);
 		return (0);
 	}
-	resolve_and_sort(&prog);
+	if (prog.a.size < 6)
+		sort_five(&prog);
+	else
+		resolve_and_sort(&prog);
 	if (prog.bench_mode)
 		print_bench(&prog, prog.disorder);
 	free_all_stack(&prog);

@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 16:12:25 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/01 03:22:45 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/02 03:58:47 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,39 @@ void plan_executor(t_program *prog, t_move_plan *plan)
 
 void    sort_three(t_program *prog)
 {
-    int head;
-    int mid;
-    int bot;
+    int a;
+    int b;
+    int c;
 
     if (prog->a.size < 2)
         return ;
     if (prog->a.size == 2)
     {
-        if (prog->a.head->value > prog->a.head->next->value)
-            sa(prog);
-        return ;
+		sa(prog);
+		return ;
     }
-    head = prog->a.head->value;
-    mid = prog->a.head->next->value;
-    bot = prog->a.head->next->next->value;
-    if (head > mid && head > bot)
-        ra(prog);
-    else if (bot < head && bot < mid)
-        rra(prog);
-    else if (mid > head && mid > bot)
-    {
-        sa(prog);
-        ra(prog);
-    }
-    if (prog->a.head->value > prog->a.head->next->value)
-        sa(prog);
+    a = prog->a.head->value;
+	b = prog->a.head->next->value;
+    c = prog->a.tail->value;
+	if (a <b && b < c)
+		return ;
+	else if (a < c && c < b)
+	{
+		sa(prog);
+		ra(prog);
+	}
+	else if (b <a && a < c)
+		sa(prog);
+	else if (b < c && c < a)
+		ra(prog);
+	else if (c <a && a < b)
+		rra(prog);
+	else if (c < b && b < a)
+	{
+		sa(prog);
+		rra(prog);
+	}
+
 }
 
 void	sort_simple(t_program *prog)
@@ -121,11 +128,7 @@ void	sort_simple(t_program *prog)
 	int max_pos_b;
 	int moves_b;
 	int dir_b;
-	if (prog->a.size < 4)
-	{
-		sort_three(prog);
-		return ;
-	}
+
 	pb(prog);
 	pb(prog);
 	if(prog->b.head->value <prog->b.head->next->value)
@@ -139,7 +142,6 @@ void	sort_simple(t_program *prog)
 	max_pos_b = find_max_pos(&prog->b);
 	moves_b = cost_calculator(max_pos_b, prog->b.size);
 	dir_b = (max_pos_b <= prog->b.size / 2) ? 0 : 1;
-
 	while(moves_b > 0)
 	{
 		if(dir_b == 0)
@@ -148,7 +150,6 @@ void	sort_simple(t_program *prog)
 			rrb(prog);
 		moves_b--;
 	}
-
 	while(prog->b.head)
 		pa(prog);
 }

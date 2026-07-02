@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   medium_sort.c                                      :+:      :+:    :+:   */
+/*   mmedium_sort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:34 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/25 00:00:00 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/02 03:41:19 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,11 @@ void	push_chunks_b(t_program *prog)
 void	sort_medium(t_program *prog)
 {
 	t_node	*best;
-
+	if (prog->a.size < 4)
+	{
+		sort_three(prog);
+		return ;
+	}
 	indexer(&prog->a);
 	push_chunks_b(prog);
 	while (prog->b.head)

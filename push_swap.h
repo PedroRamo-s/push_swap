@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/01 05:06:24 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/02 04:27:46 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ void	rrb(t_program *prog);
 void	rrr(t_program *prog);
 void	pa(t_program *prog);
 void	pb(t_program *prog);
-
+//minimal sort
+void	sort_five(t_program *prog);
+void	insert_back(t_program *prog);
 // simple sort teste
 void	sort_three(t_program *prog);
 void	sort_simple(t_program *prog);
