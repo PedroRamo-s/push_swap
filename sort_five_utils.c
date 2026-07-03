@@ -1,8 +1,14 @@
-/* sort_five_utils.c
-**
-** insert_back: reinsere o topo de B em A na posição correta,
-** usando o caminho de rotação mais curto (ra's ou rra's).
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_five_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/03 04:16:52 by aantela-          #+#    #+#             */
+/*   Updated: 2026/07/03 04:17:10 by aantela-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 

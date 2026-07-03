@@ -6,7 +6,7 @@
 /*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 20:03:11 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/29 15:31:40 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/03 04:19:32 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,15 @@ static void	push(t_list *src, t_list *dst)
 void	pa(t_program *prog)
 {
 	push(&prog->b, &prog->a);
-	write(1, "pa\n", 3);
-	//print_stacks("pa", prog);
 	if (prog->bench_mode)
 		prog->bench.pa++;
+	write(1, "pa\n", 3);
 }
 
 void	pb(t_program *prog)
 {
 	push(&prog->a, &prog->b);
-	write(1, "pb\n", 3);
-	//print_stacks("pb", prog);
 	if (prog->bench_mode)
 		prog->bench.pb++;
+	write(1, "pb\n", 3);
 }

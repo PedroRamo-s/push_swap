@@ -6,17 +6,12 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 13:59:48 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/01 04:03:20 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/03 04:22:19 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-/**
- * @brief Converte uma string para inteiro com proteção contra overflow.
- * @param str A string a ser convertida (já validada pela sintaxe).
- * @param result Ponteiro onde o int final será guardado.
- * @return 1 se a conversão for bem-sucedida, 0 se houver overflow/underflow.
- */
+
 int	ft_atoi_safe(const char *str, int *result)
 {
 	int			i;

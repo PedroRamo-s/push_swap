@@ -6,7 +6,7 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/07/02 04:26:59 by aantela-         ###   ########.fr        #
+#    Updated: 2026/07/03 04:06:29 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS	= main_novo.c \
 		  push_swap_utils_medium.c \
 		  bench.c \
 		  bench_utils.c \
+		  bench_utils_1.c \
 		  utils.c \
 		  utils_1.c	\
 		  push.c \

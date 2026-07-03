@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_five.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/03 04:17:23 by aantela-          #+#    #+#             */
+/*   Updated: 2026/07/03 04:17:44 by aantela-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /* sort_five.c
-**
-** Ordenação determinística e mínima para 5 elementos.
-**
 ** Estratégia:
 **   1. Empurra os 2 menores de A para B (com rotação mínima antes do pb)
 **   2. Ordena os 3 restantes em A com sort_three()

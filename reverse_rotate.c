@@ -6,7 +6,7 @@
 /*   By: pgois-wa <pgois-wa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 19:08:39 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/06/29 15:32:17 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/03 04:16:34 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	rra(t_program *prog)
 	if (!prog->a.head || !prog->a.head->next)
 		return ;
 	reverse_rotate(&prog->a);
-	write(1, "rra\n", 4);
-	//print_stacks("rra", prog);
 	if (prog->bench_mode)
 		prog->bench.rra++;
+	write(1, "rra\n", 4);
 }
 
 void	rrb(t_program *prog)
@@ -43,10 +42,9 @@ void	rrb(t_program *prog)
 	if (!prog->b.head || !prog->b.head->next)
 		return ;
 	reverse_rotate(&prog->b);
-	write(1, "rrb\n", 4);
-	//print_stacks("rrb", prog);
 	if (prog->bench_mode)
 		prog->bench.rrb++;
+	write(1, "rrb\n", 4);
 }
 
 void	rrr(t_program *prog)
@@ -56,8 +54,7 @@ void	rrr(t_program *prog)
 		return ;
 	reverse_rotate(&prog->a);
 	reverse_rotate(&prog->b);
-	write(1, "rrr\n", 4);
-	//print_stacks("rrr", prog);
 	if (prog->bench_mode)
 		prog->bench.rrr++;
+	write(1, "rrr\n", 4);
 }

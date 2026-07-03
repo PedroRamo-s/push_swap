@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_utils_medium.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/01 03:18:37 by aantela-          #+#    #+#             */
+/*   Updated: 2026/07/03 04:23:27 by aantela-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	get_rank(int *values, int size, int i)
@@ -53,6 +65,7 @@ int	ft_sqrt(int nb)
 		i++;
 	return (i - 1);
 }
+
 int	chunk_count(int size)
 {
 	int	sq;

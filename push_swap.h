@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/02 04:27:46 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/03 04:31:15 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,13 @@ typedef struct s_program
 	int			end_index;
 	double		disorder;
 }				t_program;
+
+typedef struct s_range
+{
+    int	l;
+    int	m;
+    int	r;
+}		t_range;
 
 // DEGUG TOOLS
 void	print_stacks(const char *op, const t_program *prog);

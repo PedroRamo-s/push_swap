@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex_sort_utils.c                               :+:      :+:    :+:   */
+/*   complex_sort_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 05:49:25 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/27 05:55:18 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/03 04:18:27 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 int	get_pos(t_list *s, t_node *target)
 {
-	t_node *tmp;
+	t_node	*tmp;
 	int		pos;
 
 	tmp = s->head;
 	pos = 0;
-
 	while (tmp != target)
 	{
 		pos++;
