@@ -6,7 +6,7 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/07/04 04:56:15 by aantela-         ###   ########.fr        #
+#    Updated: 2026/07/06 15:33:52 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,12 @@ SRCS	= main_novo.c \
 		  rotate.c \
 		  reverse_rotate.c \
 		  simple_sort.c \
+		  simple_sort_utils.c \
+		  simple_sort_utils1.c \
 		  sort_five.c \
 		  sort_five_utils.c \
-		  mmedium_sort.c \
+		  medium_sort.c \
+		  medium_sort_utils.c \
 		  complex_sort.c \
 		  complex_sort_utils_1.c \
 		  complex_sort_utils_2.c \

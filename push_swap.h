@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/04 04:47:41 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/06 14:42:20 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ typedef struct s_range
 	int	r;
 }		t_range;
 
-// DEGUG TOOLS
-void	print_stacks(const char *op, const t_program *prog);
 //ERRO_HANDLER.C
 void	handle_error_and_exit(t_list *stack);
 void	free_stack(t_list *stack);
@@ -128,6 +126,8 @@ void	insert_back(t_program *prog);
 // simple sort teste
 void	sort_three(t_program *prog);
 void	sort_simple(t_program *prog);
+void	plan_executor(t_program *prog, t_move_plan *plan);
+void	calculate_insertion_plan(t_program *prog, t_move_plan *plan);
 int		find_max_pos(t_list *b);
 int		find_target_b(t_list *b, int value_a);
 // medium teste
@@ -137,6 +137,8 @@ int		cost_calculator(int position, int stack_size);
 //medium utils
 void	index_assigner(t_list *stack, int *values);
 t_node	*best_selector_a(t_list *stack, int chunk_max, int chunk_min);
+void	push_chunks_b(t_program *prog);
+void	push_and_sort_b(t_program *prog);
 void	indexer(t_list *stack);
 int		chunk_count(int size);
 //complex sort teste
