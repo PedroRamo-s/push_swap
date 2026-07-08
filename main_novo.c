@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 04:48:56 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/02 04:28:06 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:43:34 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ static void	resolve_and_sort(t_program *prog)
 {
 	if (prog->strategy == STRAT_ADAPTIVE)
 	{
-		if (prog->disorder <= 0.2)
+		if (prog->disorder < 0.2)
 		{
-			sort_simple(prog);
+			simple_sort(prog);
 			prog->adaptive = STRAT_SIMPLE;
 		}
-		else if (prog -> disorder > 0.2 && prog->disorder < 0.5)
+		else if (prog -> disorder >= 0.2 && prog->disorder < 0.5)
 		{
-			sort_medium(prog);
+			medium_sort(prog);
 			prog->adaptive = STRAT_MEDIUM;
 		}
 		else
@@ -74,9 +74,9 @@ static void	resolve_and_sort(t_program *prog)
 		}
 	}
 	if (prog->strategy == STRAT_SIMPLE)
-		sort_simple(prog);
+		simple_sort(prog);
 	if (prog->strategy == STRAT_MEDIUM)
-		sort_medium(prog);
+		medium_sort(prog);
 	if (prog->strategy == STRAT_COMPLEX)
 		complex_sort(prog);
 }

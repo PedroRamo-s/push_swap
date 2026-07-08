@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 06:03:10 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:57:17 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:37:35 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ static void	do_rotation_cont(t_program *prog, int cb)
 	}
 }
 
-/*
-** Executa as rotações simultâneas (rr ou rrr) e depois as restantes.
-** ca: custo signed de A, cb: custo signed de B.
-*/
 void	do_rotations(t_program *prog, int ca, int cb)
 {
 	while (ca > 0 && cb > 0)
@@ -57,9 +53,6 @@ void	do_rotations(t_program *prog, int ca, int cb)
 	do_rotation_cont(prog, cb);
 }
 
-/*
-** Roda A até a posição pos ficar no topo, depois faz pa.
-*/
 void	rotate_a_to_pos(t_program *prog, int pos_a)
 {
 	int	ca;
@@ -77,9 +70,6 @@ void	rotate_a_to_pos(t_program *prog, int pos_a)
 	}
 }
 
-/*
-** Move o nó mais barato de B para a posição correta em A.
-*/
 void	move_cheapest(t_program *prog)
 {
 	t_node	*node;

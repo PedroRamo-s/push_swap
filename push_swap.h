@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/06 14:42:20 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:44:19 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,13 @@ void	sort_five(t_program *prog);
 void	insert_back(t_program *prog);
 // simple sort teste
 void	sort_three(t_program *prog);
-void	sort_simple(t_program *prog);
+void	simple_sort(t_program *prog);
 void	plan_executor(t_program *prog, t_move_plan *plan);
 void	calculate_insertion_plan(t_program *prog, t_move_plan *plan);
 int		find_max_pos(t_list *b);
 int		find_target_b(t_list *b, int value_a);
 // medium teste
-void	sort_medium(t_program *prog);
+void	medium_sort(t_program *prog);
 int		chunk_count(int size);
 int		cost_calculator(int position, int stack_size);
 //medium utils
@@ -141,7 +141,7 @@ void	push_chunks_b(t_program *prog);
 void	push_and_sort_b(t_program *prog);
 void	indexer(t_list *stack);
 int		chunk_count(int size);
-//complex sort teste
+//complex sort 
 void	complex_sort(t_program *prog);
 int		get_pos(t_list *s, t_node *target);
 int		signed_cost(int pos, int size);
@@ -154,7 +154,6 @@ t_node	*find_cheapest(t_list *a, t_list *b);
 void	do_rotations(t_program *prog, int ca, int cb);
 void	rotate_a_to_pos(t_program *prog, int pos_a);
 void	move_cheapest(t_program *prog);
-void	sort_complex(t_program *prog);
 // BENCH
 double	compute_disorder(t_list *a);
 int		*copy_stack_to_array(t_list *a);

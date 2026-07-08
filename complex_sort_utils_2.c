@@ -6,19 +6,12 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 05:59:26 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/27 06:00:31 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:39:15 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-** Encontra a posição em A onde val deve ser inserido.
-** pa coloca o elemento no HEAD de A. Para manter A ordenada crescente,
-** precisamos que o SUCCESSOR (primeiro elemento > val) esteja no topo.
-** Assim pa insere val antes do successor = posição correta.
-** Se val é maior que tudo, o successor é o mínimo (wrap-around).
-*/
 int	find_target_a(t_list *a, int val)
 {
 	t_node	*tmp;
@@ -43,9 +36,6 @@ int	find_target_a(t_list *a, int val)
 	return (get_pos(a, best));
 }
 
-/*
-** Custo de mover o nó node de B para a posição correta em A.
-*/
 int	node_cost(t_list *a, t_list *b, t_node *node)
 {
 	int	pos_b;
@@ -60,9 +50,6 @@ int	node_cost(t_list *a, t_list *b, t_node *node)
 	return (compute_total(ca, cb));
 }
 
-/*
-** Encontra o nó de B com menor custo total para inserir em A.
-*/
 t_node	*find_cheapest(t_list *a, t_list *b)
 {
 	t_node	*tmp;

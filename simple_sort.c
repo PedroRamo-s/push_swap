@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 16:12:25 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/06 15:33:28 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:40:49 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	rotate_b_to_top(t_program *prog)
 	}
 }
 
-void	sort_simple(t_program *prog)
+void	simple_sort(t_program *prog)
 {
 	pb(prog);
 	pb(prog);

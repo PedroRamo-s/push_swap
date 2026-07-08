@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:34 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/06 13:32:07 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:43:51 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	push_and_sort_b(t_program *prog)
 		sb(prog);
 }
 
-void	sort_medium(t_program *prog)
+void	medium_sort(t_program *prog)
 {
 	t_node	*best;
 

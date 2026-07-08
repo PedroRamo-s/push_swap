@@ -6,12 +6,12 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 05:39:42 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/03 04:19:02 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:57:36 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-//roda ate o minimo ficar por no head
+
 static void	rotate_min_to_top(t_program *prog)
 {
 	t_node	*min;
