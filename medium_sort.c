@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:34 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/08 16:43:51 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:54:06 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ static void	rotate_to_top_b(t_program *prog, t_node *target)
 	}
 }
 
-/*
-** Após cada pb, se o novo topo de B tiver índice MAIOR que o segundo,
-** faz sb para manter B ordenado decrescente do topo.
-** Isso reduz as rotações no drain porque o máximo fica mais perto do topo.
-*/
 void	push_and_sort_b(t_program *prog)
 {
 	pb(prog);

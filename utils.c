@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 03:33:19 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/29 15:14:10 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:49:17 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,40 +63,6 @@ void	free_array(char **array)
 	free(array);
 }
 
-/*char	**ft_split(char const *s)
-{
-	char	**array;
-	size_t	i;
-	int		j;
-	int		s_word;
-
-	if (!s)
-		return (NULL);
-	array = malloc(sizeof(char *) * (count_words(s) + 1));
-	if (!array)
-		return (NULL);
-	i = 0;
-	j = 0;
-	s_word = -1;
-	while (s[i])
-	{
-		if (s[i] != ' ' && s_word < 0)
-			s_word = i;
-		else if ((s[i] == ' ' || s[i + 1] == '\0') && s_word >= 0)
-		{
-			if (s[i] != ' ')
-				array[j++] = extract_word(s, s_word, i + 1);
-			else
-				array[j++] = extract_word(s, s_word, i);
-			s_word = -1;
-		}
-		i++;
-	}
-	if (s_word >= 0)
-		array[j++] = extract_word(s, s_word, i);
-	array[j] = NULL;
-	return (array);
-}*/
 char	**ft_split(char const *s)
 {
 	char	**array;

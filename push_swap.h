@@ -6,17 +6,15 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 15:11:45 by pgois-wa          #+#    #+#             */
-/*   Updated: 2026/07/08 16:44:19 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:52:57 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <unistd.h>
 # include "ft_printf/ft_printf.h"
 
 typedef struct s_node
@@ -76,7 +74,6 @@ typedef struct s_program
 	t_strategy	strategy;
 	t_strategy	adaptive;
 	int			bench_mode;
-	int			count_only;
 	int			start_index;
 	int			end_index;
 	double		disorder;
@@ -108,7 +105,7 @@ void	free_array(char **array);
 void	rotate_to_top(t_list *stack, t_node *target, t_program *prog);
 int		*array_filler(t_list *stack);
 int		ft_sqrt(int nb);
-// operadores
+// OPERATIONS
 void	sa(t_program *prog);
 void	sb(t_program *prog);
 void	ss(t_program *prog);
@@ -120,28 +117,27 @@ void	rrb(t_program *prog);
 void	rrr(t_program *prog);
 void	pa(t_program *prog);
 void	pb(t_program *prog);
-//minimal sort
+// MINI SORT
 void	sort_five(t_program *prog);
 void	insert_back(t_program *prog);
-// simple sort teste
+// SIMPLE SORT 
 void	sort_three(t_program *prog);
 void	simple_sort(t_program *prog);
 void	plan_executor(t_program *prog, t_move_plan *plan);
 void	calculate_insertion_plan(t_program *prog, t_move_plan *plan);
 int		find_max_pos(t_list *b);
 int		find_target_b(t_list *b, int value_a);
-// medium teste
+// MEDIUM SORT
 void	medium_sort(t_program *prog);
 int		chunk_count(int size);
 int		cost_calculator(int position, int stack_size);
-//medium utils
 void	index_assigner(t_list *stack, int *values);
 t_node	*best_selector_a(t_list *stack, int chunk_max, int chunk_min);
 void	push_chunks_b(t_program *prog);
 void	push_and_sort_b(t_program *prog);
 void	indexer(t_list *stack);
 int		chunk_count(int size);
-//complex sort 
+// COMPLEX SORT
 void	complex_sort(t_program *prog);
 int		get_pos(t_list *s, t_node *target);
 int		signed_cost(int pos, int size);

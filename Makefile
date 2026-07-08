@@ -6,14 +6,14 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/07/08 13:47:00 by aantela-         ###   ########.fr        #
+#    Updated: 2026/07/08 16:54:24 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= push_swap
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -march=native -g
+CFLAGS	= -Wall -Wextra -Werror 
 PRINTF_DIR = ./ft_printf
 PRINTF_LIB = $(PRINTF_DIR)/libftprintf.a
 
