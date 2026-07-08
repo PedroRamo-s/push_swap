@@ -6,36 +6,21 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 00:00:00 by username          #+#    #+#             */
-/*   Updated: 2026/07/02 04:50:55 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/08 13:55:04 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	bench_putint(int n)
+char	*strategy_name(t_strategy strategy)
 {
-	char	buf[12];
-	int		i;
-	int		neg;
-
-	neg = 0;
-	if (n < 0)
-	{
-		neg = 1;
-		n = -n;
-	}
-	i = 11;
-	buf[i] = '\0';
-	if (n == 0)
-		buf[--i] = '0';
-	while (n > 0)
-	{
-		buf[--i] = '0' + (n % 10);
-		n /= 10;
-	}
-	if (neg)
-		buf[--i] = '-';
-	write(2, buf + i, 11 - i);
+	if (strategy == STRAT_SIMPLE)
+		return ("Simple [O(n²)]");
+	if (strategy == STRAT_MEDIUM)
+		return ("Medium [O(n\\sqrt{n})]");
+	if (strategy == STRAT_COMPLEX)
+		return ("Complex [O(n log n)]");
+	return ("Adaptive");
 }
 
 static void	bench_putpercent(double value)
@@ -52,11 +37,11 @@ static void	bench_putpercent(double value)
 		integer += 1;
 		decimal = 0;
 	}
-	bench_putint(integer);
+	ft_printf("%d", integer);
 	write(2, ".", 1);
 	if (decimal < 10)
 		write(2, "0", 1);
-	bench_putint(decimal);
+	ft_printf("%d", decimal);
 	write(2, "%", 1);
 }
 
@@ -75,8 +60,8 @@ void	print_bench(t_program *prog, double disorder)
 	write(2, "\n", 1);
 	ft_printf("[bench] Strategy:  %s ", strategy_name(prog->strategy));
 	if (prog->adaptive)
-		ft_printf(" / %s \n", strategy_name(prog->adaptive));
-	ft_printf("[bench] Operations:   %d\n", total_ops(&prog->bench));
+		ft_printf(" / %s", strategy_name(prog->adaptive));
+	ft_printf("\n[bench] Operations:   %d\n", total_ops(&prog->bench));
 	ft_printf("[bench]    sa: %d   sb: %d", prog->bench.sa, prog->bench.sb);
 	ft_printf("   ss: %d\n", prog->bench.ss);
 	ft_printf("[bench]    pa: %d   pb: %d \n", prog->bench.pa, prog->bench.pb);
