@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 03:18:37 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/03 04:23:27 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/09 16:02:56 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,13 @@ int	ft_sqrt(int nb)
 	int	i;
 
 	i = 1;
-	while (i * i <= nb)
+	while (i <= nb)
+	{
+		if (i * i >= nb)
+			return (i);
 		i++;
-	return (i - 1);
+	}
+	return (0);
 }
 
 int	chunk_count(int size)

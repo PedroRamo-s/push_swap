@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:15:46 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/06 13:33:47 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/09 15:55:18 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	push_chunks_b(t_program *prog)
 	t_node	*selected_node;
 
 	size = prog->a.size;
-	chunk_size = size / 10;
+	chunk_size = 1.8 * ft_sqrt(size);
 	if (chunk_size < 1)
 		chunk_size = 1;
 	chunk_max = chunk_size - 1;
