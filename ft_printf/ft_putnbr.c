@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   erro_handler.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/09 15:08:31 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:43:19 by aantela-         ###   ########.fr       */
+/*   Created: 2026/05/21 03:50:16 by aantela-          #+#    #+#             */
+/*   Updated: 2026/05/24 21:26:28 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-void	free_stack(t_list *stack)
+int	ft_putnbr(int n, int fd)
 {
-	t_node	*current;
-	t_node	*next_node;
+	int		len;
+	char	c;
 
-	if (!stack || !stack -> head)
-		return ;
-	current = stack -> head;
-	while (current != NULL)
+	len = 0;
+	if (n == -2147483648)
+		return (ft_putstr("-2147483648", fd));
+	if (n < 0)
 	{
-		next_node = current -> next;
-		free(current);
-		current = next_node;
+		len += ft_putchar('-', fd);
+		n = -n;
 	}
-	stack -> head = NULL;
-	stack -> tail = NULL;
-	stack -> size = 0;
-}
-
-void	free_all_stack(t_program *prog)
-{
-	free_stack(&prog->a);
-	free_stack(&prog->b);
+	if (n >= 10)
+		len += ft_putnbr(n / 10, fd);
+	c = (n % 10) + '0';
+	len += ft_putchar(c, fd);
+	return (len);
 }

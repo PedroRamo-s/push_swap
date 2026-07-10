@@ -5,170 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 00:00:00 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 00:00:00 by aantela-         ###   ########.fr       */
+/*   Created: 2026/06/17 00:00:00 by username          #+#    #+#             */
+/*   Updated: 2026/07/08 13:55:04 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-** Escreve uma string para stderr.
-*/
-static void	bench_putstr(const char *s)
+char	*strategy_name(t_strategy strategy)
 {
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	write(2, s, len);
+	if (strategy == STRAT_SIMPLE)
+		return ("Simple [O(n²)]");
+	if (strategy == STRAT_MEDIUM)
+		return ("Medium [O(n\\sqrt{n})]");
+	if (strategy == STRAT_COMPLEX)
+		return ("Complex [O(n log n)]");
+	return ("Adaptive");
 }
 
-/*
-** Escreve um inteiro para stderr.
-*/
-static void	bench_putint(int n)
-{
-	char	buf[12];
-	int		i;
-	int		neg;
-
-	neg = 0;
-	if (n < 0)
-	{
-		neg = 1;
-		n = -n;
-	}
-	i = 11;
-	buf[i] = '\0';
-	if (n == 0)
-		buf[--i] = '0';
-	while (n > 0)
-	{
-		buf[--i] = '0' + (n % 10);
-		n /= 10;
-	}
-	if (neg)
-		buf[--i] = '-';
-	write(2, buf + i, 11 - i);
-}
-
-/*
-** Escreve o disorder em percentagem com 2 casas decimais para stderr.
-** Exemplo: 34.07%
-*/
 static void	bench_putpercent(double value)
 {
-	int	integer;
-	int	decimal;
+	int		integer;
+	int		decimal;
+	double	scaled_value;
 
-	integer = (int)value;
-	decimal = (int)((value - integer) * 100.0);
-	bench_putint(integer);
+	scaled_value = value * 100.0;
+	integer = (int) scaled_value;
+	decimal = (int)((scaled_value - integer) * 100.0 + 0.05);
+	if (decimal >= 100)
+	{
+		integer += 1;
+		decimal = 0;
+	}
+	ft_printf("%d", integer);
 	write(2, ".", 1);
 	if (decimal < 10)
 		write(2, "0", 1);
-	bench_putint(decimal);
+	ft_printf("%d", decimal);
 	write(2, "%", 1);
 }
 
-/*
-** Calcula o disorder da stack antes do sort.
-** Conta inversoes (pares i,j onde i<j mas a[i]>a[j])
-** e devolve a percentagem sobre o total de pares possivel.
-*/
-double	compute_disorder(t_stack *a)
-{
-	t_node	*i;
-	t_node	*j;
-	double	mistakes;
-	double	total_pairs;
-
-	if (!a || a->size < 2)
-		return (0.0);
-	mistakes = 0;
-	total_pairs = 0;
-	i = a->top;
-	while (i)
-	{
-		j = i->next;
-		while (j)
-		{
-			total_pairs++;
-			if (i->value > j->value)
-				mistakes++;
-			j = j->next;
-		}
-		i = i->next;
-	}
-	return (mistakes / total_pairs * 100.0);
-}
-
-/*
-** Calcula o total de operacoes a partir do t_bench.
-*/
 static int	total_ops(t_bench *bench)
 {
 	return (bench->sa + bench->sb + bench->ss
-		+ bench->pa + bench->pb
-		+ bench->ra + bench->rb + bench->rr
-		+ bench->rra + bench->rrb + bench->rrr);
+		+bench->pa + bench->pb
+		+bench->ra + bench->rb + bench->rr
+		+bench->rra + bench->rrb + bench->rrr);
 }
 
-/*
-** Devolve a string da estrategia e complexidade.
-*/
-static const char	*strategy_name(t_strategy strategy)
+void	print_bench(t_program *prog, double disorder)
 {
-	if (strategy == STRAT_SIMPLE)
-		return ("simple [O(n²)]");
-	if (strategy == STRAT_MEDIUM)
-		return ("medium [O(n log n)]");
-	if (strategy == STRAT_COMPLEX)
-		return ("complex [O(n log n)]");
-	return ("adaptive [O(n log n)]");
-}
-
-/*
-** Imprime o relatorio de benchmark para stderr.
-** Chamada no main apos o sort, so se config.bench_mode == 1.
-*/
-void	print_bench(t_bench *bench, t_config *config, double disorder)
-{
-	bench_putstr("[bench] Disorder:    ");
+	ft_printf("[bench] Disorder:  ");
 	bench_putpercent(disorder);
 	write(2, "\n", 1);
-	bench_putstr("[bench] Strategy:    ");
-	bench_putstr(strategy_name(config->strategy));
-	write(2, "\n", 1);
-	bench_putstr("[bench] Operations:  ");
-	bench_putint(total_ops(bench));
-	write(2, "\n", 1);
-	bench_putstr("[bench]   sa: ");
-	bench_putint(bench->sa);
-	bench_putstr("   sb: ");
-	bench_putint(bench->sb);
-	bench_putstr("   ss: ");
-	bench_putint(bench->ss);
-	write(2, "\n", 1);
-	bench_putstr("[bench]   pa: ");
-	bench_putint(bench->pa);
-	bench_putstr("   pb: ");
-	bench_putint(bench->pb);
-	write(2, "\n", 1);
-	bench_putstr("[bench]   ra: ");
-	bench_putint(bench->ra);
-	bench_putstr("   rb: ");
-	bench_putint(bench->rb);
-	bench_putstr("   rr: ");
-	bench_putint(bench->rr);
-	write(2, "\n", 1);
-	bench_putstr("[bench]   rra: ");
-	bench_putint(bench->rra);
-	bench_putstr("  rrb: ");
-	bench_putint(bench->rrb);
-	bench_putstr("  rrr: ");
-	bench_putint(bench->rrr);
-	write(2, "\n", 1);
+	ft_printf("[bench] Strategy:  %s ", strategy_name(prog->strategy));
+	if (prog->adaptive)
+		ft_printf(" / %s", strategy_name(prog->adaptive));
+	ft_printf("\n[bench] Operations:   %d\n", total_ops(&prog->bench));
+	ft_printf("[bench]    sa: %d   sb: %d", prog->bench.sa, prog->bench.sb);
+	ft_printf("   ss: %d\n", prog->bench.ss);
+	ft_printf("[bench]    pa: %d   pb: %d \n", prog->bench.pa, prog->bench.pb);
+	ft_printf("[bench]    ra: %d   rb: %d", prog->bench.ra, prog->bench.rb);
+	ft_printf("   rr: %d \n", prog->bench.rr);
+	ft_printf("[bench]   rra: %d  rrb: %d", prog->bench.rra, prog->bench.rrb);
+	ft_printf("  rrr: %d \n", prog->bench.rrr);
 }

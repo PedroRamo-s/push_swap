@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 05:40:30 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:45:47 by aantela-         ###   ########.fr       */
+/*   Created: 2026/05/21 04:49:37 by aantela-          #+#    #+#             */
+/*   Updated: 2026/05/24 21:27:34 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_putptr(void	*ptr, int fd)
 {
-	size_t	i;
+	int	len;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if (!ptr)
+		return (ft_putstr("(nil)", fd));
+	len = 0;
+	len = len + ft_putstr("0x", fd);
+	len = len + ft_puthex((unsigned long)ptr, 'x', fd);
+	return (len);
 }

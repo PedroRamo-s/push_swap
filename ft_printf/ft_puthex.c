@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 05:40:30 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:45:47 by aantela-         ###   ########.fr       */
+/*   Created: 2026/05/20 03:17:46 by aantela-          #+#    #+#             */
+/*   Updated: 2026/05/24 21:29:30 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_puthex(unsigned long n, char t, int fd)
 {
-	size_t	i;
+	int		count;
+	char	*base;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	count = 0;
+	if (t == 'x')
+		base = "0123456789abcdef";
+	else
+		base = "0123456789ABCDEF";
+	if (n >= 16)
+		count += ft_puthex(n / 16, t, fd);
+	count += ft_putchar(base[n % 16], fd);
+	return (count);
 }

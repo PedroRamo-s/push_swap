@@ -5,92 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/14 14:50:12 by aantela-          #+#    #+#             */
-/*   Updated: 2026/06/17 05:12:48 by aantela-         ###   ########.fr       */
+/*   Created: 2026/06/29 16:12:25 by aantela-          #+#    #+#             */
+/*   Updated: 2026/07/10 03:15:49 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	get_min_index(t_stack *a)
+static int	get_dir_simple(int pos, int size)
 {
-	t_node	*current;
-	int		min;
-	int		index;
-	int		min_index;
-
-	current = a->top;
-	min = current->value;
-	index = 0;
-	min_index = 0;
-	while (current)
-	{
-		if (current->value < min)
-		{
-			min = current->value;
-			min_index = index;
-		}
-		index++;
-		current = current->next;
-	}
-	return (min_index);
+	if (pos <= size / 2)
+		return (0);
+	return (1);
 }
 
-static void	rotate_to_top(t_stack *a, t_stack *b, int min_index, t_bench *bench)
+static void	insert_all_to_b(t_program *prog)
 {
-	int	distance;
+	t_move_plan	plan;
 
-	if (min_index <= a->size / 2)
-		distance = min_index;
-	else
-		distance = min_index - a->size;
-	while (distance > 0)
+	while (prog->a.size > 0)
 	{
-		ra(a, b, bench);
-		distance--;
-	}
-	while (distance < 0)
-	{
-		rra(a, b, bench);
-		distance++;
+		calculate_insertion_plan(prog, &plan);
+		plan_executor(prog, &plan);
+		pb(prog);
 	}
 }
 
-static void	sort_three(t_stack *a, t_stack *b, t_bench *bench)
+static void	rotate_b_to_top(t_program *prog)
 {
-	int	top;
-	int	mid;
-	int	bot;
-	
-	if (a->size < 2)
-        return ;
-    if (a->size == 2)
-    {
-        if (a->top->value > a->top->next->value)
-            sa(a, b, bench);
-        return ;
+	int	max_pos_b;
+	int	moves_b;
+	int	dir_b;
+
+	max_pos_b = find_max_pos(&prog->b);
+	moves_b = cost_calculator(max_pos_b, prog->b.size);
+	dir_b = get_dir_simple(max_pos_b, prog->b.size);
+	while (moves_b > 0)
+	{
+		if (dir_b == 0)
+			rb(prog);
+		else
+			rrb(prog);
+		moves_b--;
 	}
-	top = a->top->value;
-	mid = a->top->next->value;
-	bot = a->top->next->next->value;
-	if (top > mid && top > bot)
-		ra(a, b, bench);
-	else if (bot < top && bot < mid)
-		rra(a, b, bench);
-	if (a->top->value > a->top->next->value)
-		sa(a, b, bench);
 }
 
-void	sort_simple(t_stack *a, t_stack *b, t_bench *bench)
+void	simple_sort(t_program *prog)
 {
-	while (a->size > 3)
+	if (prog->a.size < 6)
 	{
-		rotate_to_top(a, b, get_min_index(a), bench);
-		if (is_sorted(a))
-			return ;
-		pb(a, b, bench);
-	}
-	sort_three(a, b, bench);
-	while (b->top)
-		pa(a, b, bench);
+		sort_five(prog);
+		return ;
+	}	
+	pb(prog);
+	pb(prog);
+	if (prog->b.head->value < prog->b.head->next->value)
+		sb(prog);
+	insert_all_to_b(prog);
+	rotate_b_to_top(prog);
+	while (prog->b.head)
+		pa(prog);
 }

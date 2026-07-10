@@ -6,45 +6,62 @@
 #    By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/14 14:51:25 by aantela-          #+#    #+#              #
-#    Updated: 2026/06/17 05:43:30 by aantela-         ###   ########.fr        #
+#    Updated: 2026/07/08 16:54:24 by aantela-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= push_swap
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -march=native
- 
+CFLAGS	= -Wall -Wextra -Werror 
+PRINTF_DIR = ./ft_printf
+PRINTF_LIB = $(PRINTF_DIR)/libftprintf.a
 
-SRCS	= main_t.c \
-		  debug.c \
+SRCS	= main_novo.c \
 		  erro_handler.c \
 		  parse_args.c \
+		  parse_args_utils.c \
 		  push_swap_utils.c \
+		  push_swap_utils_medium.c \
 		  bench.c \
+		  bench_utils.c \
 		  utils.c \
 		  utils_1.c	\
 		  push.c \
 		  swap.c \
 		  rotate.c \
 		  reverse_rotate.c \
-		  simple_sort.c
+		  simple_sort.c \
+		  simple_sort_utils.c \
+		  simple_sort_utils1.c \
+		  sort_five.c \
+		  sort_five_utils.c \
+		  medium_sort.c \
+		  medium_sort_utils.c \
+		  complex_sort.c \
+		  complex_sort_utils_1.c \
+		  complex_sort_utils_2.c \
+		  complex_sort_utils_3.c \
 
 OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(PRINTF_LIB)
+	$(CC) $(CFLAGS) $(OBJS) $(PRINTF_LIB) -o $(NAME)
 
+$(PRINTF_LIB):
+	make -C $(PRINTF_DIR)
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(PRINTF_DIR) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
+	make -C $(PRINTF_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(PRINTF_DIR) fclean
 
 re: fclean all
 

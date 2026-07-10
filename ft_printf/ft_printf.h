@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 05:40:30 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:45:47 by aantela-         ###   ########.fr       */
+/*   Created: 2026/05/15 04:07:46 by aantela-          #+#    #+#             */
+/*   Updated: 2026/05/24 23:15:42 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
+# include <unistd.h>
+# include <stdarg.h>
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
-}
+int	ft_printf(const char *format, ...);
+int	ft_putchar(char c, int fd);
+int	ft_putstr(char *c, int fd);
+int	ft_putnbr(int n, int fd);
+int	ft_puthex(unsigned long n, char t, int fd);
+int	ft_putptr(void	*ptr, int fd);
+int	ft_putnbr_uns(unsigned int n, int fd);
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
+#endif

@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   erro_handler.c                                     :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/09 15:08:31 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/04 04:43:19 by aantela-         ###   ########.fr       */
+/*   Created: 2026/05/19 06:33:34 by aantela-          #+#    #+#             */
+/*   Updated: 2026/05/24 23:26:41 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-void	free_stack(t_list *stack)
+static size_t	ft_strlen(const char *s)
 {
-	t_node	*current;
-	t_node	*next_node;
+	size_t	i;
 
-	if (!stack || !stack -> head)
-		return ;
-	current = stack -> head;
-	while (current != NULL)
-	{
-		next_node = current -> next;
-		free(current);
-		current = next_node;
-	}
-	stack -> head = NULL;
-	stack -> tail = NULL;
-	stack -> size = 0;
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-void	free_all_stack(t_program *prog)
+int	ft_putstr(char *s, int fd)
 {
-	free_stack(&prog->a);
-	free_stack(&prog->b);
+	if (!s)
+		return (ft_putstr("(null)", fd));
+	return (write(fd, s, ft_strlen(s)));
 }
