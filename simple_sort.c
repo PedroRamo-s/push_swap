@@ -6,7 +6,7 @@
 /*   By: aantela- <aantela-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 16:12:25 by aantela-          #+#    #+#             */
-/*   Updated: 2026/07/10 03:15:49 by aantela-         ###   ########.fr       */
+/*   Updated: 2026/07/10 03:29:01 by aantela-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	simple_sort(t_program *prog)
 	{
 		sort_five(prog);
 		return ;
-	}	
+	}
 	pb(prog);
 	pb(prog);
 	if (prog->b.head->value < prog->b.head->next->value)
